@@ -26,17 +26,13 @@
             cursor: pointer; font-size: 14px; z-index: 10;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-        .refresh-btn:active { transform: rotate(180deg); transition: 0.3s; }
 
         /* --- MÜŞTERİ PANELİ --- */
         #creator-mode { display: block; }
         
-        /* Rehber Kutusu */
         .guide-box { background: #111; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 30px; }
         .guide-step { font-size: 13px; color: #ccc; margin-bottom: 12px; display: flex; gap: 12px; line-height: 1.5; }
         .guide-step i { color: #D4AF37; margin-top: 3px; font-size: 14px; }
-        
-        /* GÜVENLİK UYARISI */
         .warning-text { color: #ff4444; font-weight: bold; text-decoration: underline; }
 
         .btn-drive {
@@ -71,12 +67,7 @@
         #result-area { display: none; margin-top: 30px; background: #111; padding: 20px; border-radius: 12px; border: 1px dashed #555; text-align: center; }
         .result-link { word-break: break-all; font-family: monospace; font-size: 11px; color: #0f0; background: #000; padding: 15px; border-radius: 8px; border: 1px solid #222; margin: 15px 0; }
         .btn-copy { background: #333; color: #fff; border: 1px solid #555; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        
-        .btn-reset-large {
-            width: 100%; background: #111; border: 1px solid #333; color: #888;
-            padding: 15px; border-radius: 10px; margin-top: 30px; cursor: pointer;
-            font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
-        }
+        .btn-reset-large { width: 100%; background: #111; border: 1px solid #333; color: #888; padding: 15px; border-radius: 10px; margin-top: 30px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- MİSAFİR PANELİ --- */
         #viewer-mode { display: none; padding-top: 20px; }
@@ -127,11 +118,10 @@
         <div id="creator-mode">
             
             <div class="guide-box">
-                <div class="guide-step"><i class="fas fa-1"></i> <span>Google Drive'da dosyanın yanındaki 3 noktaya basın.</span></div>
-                <div class="guide-step"><i class="fas fa-2"></i> <span>"Paylaş" > "Erişimi Yönet" kısmına girin.</span></div>
-                <div class="guide-step"><i class="fas fa-3"></i> <span>"Bağlantıya sahip herkes" seçeneğini seçin.</span></div>
-                <div class="guide-step"><i class="fas fa-exclamation-triangle" style="color:#ff4444"></i> <span>Yetkinin <span class="warning-text">"GÖRÜNTÜLEYEN"</span> olduğundan emin olun (Düzenleyen yapmayın!).</span></div>
-                <div class="guide-step"><i class="fas fa-4"></i> <span>Bağlantıyı kopyalayıp aşağıya yapıştırın.</span></div>
+                <div class="guide-step"><i class="fas fa-1"></i> <span>Drive'da resimlerinizi seçin ve bir <b>Klasöre</b> koyun.</span></div>
+                <div class="guide-step"><i class="fas fa-2"></i> <span>Klasörün yanındaki 3 noktadan "Paylaş" > "Bağlantıyı Kopyala" diyin.</span></div>
+                <div class="guide-step"><i class="fas fa-3"></i> <span>Erişimin <span class="warning-text">"GÖRÜNTÜLEYEN"</span> (Herkese Açık) olduğundan emin olun.</span></div>
+                <div class="guide-step"><i class="fas fa-4"></i> <span>Linkleri kutulara yapıştırıp <b>Link Oluştur</b> butonuna basın.</span></div>
             </div>
             
             <a href="https://drive.google.com" target="_blank" class="btn-drive">
@@ -148,17 +138,18 @@
             <div class="input-group">
                 <label class="input-label"><i class="fas fa-microphone"></i> Günlük Sesli Mesaj Linki</label>
                 <div class="paste-wrapper">
-                    <input type="text" id="inSes" placeholder="Ses linki...">
+                    <input type="text" id="inSes" placeholder="Ses dosyasının linkini yapıştırın...">
                     <button class="btn-paste" onclick="pasteFromClipboard('inSes')"><i class="fas fa-paste"></i></button>
                 </div>
             </div>
 
             <div class="input-group">
-                <label class="input-label"><i class="fas fa-folder-open"></i> Dijital Miras Klasörü Linki</label>
+                <label class="input-label"><i class="fas fa-folder-open"></i> Dijital Miras Albüm Linki</label>
                 <div class="paste-wrapper">
-                    <input type="text" id="inFolder" placeholder="Klasör linki...">
+                    <input type="text" id="inFolder" placeholder="Klasör linkini yapıştırın...">
                     <button class="btn-paste" onclick="pasteFromClipboard('inFolder')"><i class="fas fa-paste"></i></button>
                 </div>
+                <div style="font-size:10px; color:#666; margin-top:5px;">*Birden çok resim için "Klasör Linki" kullanın.</div>
             </div>
 
             <button class="btn-gold" onclick="generateLink()">Link Oluştur</button>
@@ -175,13 +166,19 @@
             <div id="btnNot" class="menu-btn" onclick="openModal('not')" style="display:none;">
                 <div class="menu-left"><div class="menu-icon"><i class="fas fa-pen-nib"></i></div><div class="menu-text"><h3>Günlük Mesaj</h3><p>Okumak için dokun</p></div></div><div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
+            
             <div id="btnSes" class="menu-btn" onclick="openModal('ses')" style="display:none;">
                 <div class="menu-left"><div class="menu-icon"><i class="fas fa-microphone"></i></div><div class="menu-text"><h3>Sesli Mesaj</h3><p>Dinlemek için dokun</p></div></div><div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
+            
             <div id="btnFolder" class="menu-btn" onclick="openFolder()" style="display:none;">
-                <div class="menu-left"><div class="menu-icon"><i class="fas fa-folder-open"></i></div><div class="menu-text"><h3>Dijital Miras Klasörü</h3><p>Albüme gitmek için dokun</p></div></div><div class="menu-arrow"><i class="fas fa-external-link-alt"></i></div>
+                <div class="menu-left"><div class="menu-icon"><i class="fas fa-folder-open"></i></div><div class="menu-text"><h3>Dijital Miras Albümü</h3><p>Resimlere bakmak için dokun</p></div></div><div class="menu-arrow"><i class="fas fa-external-link-alt"></i></div>
             </div>
-            <div class="footer">POWERED BY FTHLABZ<br><br><span onclick="resetApp()" style="color:#333; cursor:pointer;">[Kurulum Moduna Dön]</span></div>
+            
+            <div class="footer">
+                POWERED BY FTHLABZ<br><br>
+                <span onclick="resetApp()" style="color:#333; cursor:pointer;">[Kurulum Moduna Dön]</span>
+            </div>
         </div>
     </div>
 
@@ -239,6 +236,7 @@
             if(type === 'ses') document.getElementById('contentSes').src = cleanLink(s);
         }
 
+        // KLASÖRÜ YENİ SEKMEDE AÇAR (Swipe için en iyi yöntem)
         function openFolder() {
             if(f) window.open(f, '_blank');
         }
