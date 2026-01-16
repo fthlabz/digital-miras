@@ -8,53 +8,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- KİLİT MEKANİZMASI VE RESET --- */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        html, body {
-            margin: 0; 
-            padding: 0; 
-            width: 100%; 
-            overflow-x: hidden; /* SAĞA SOLA KAYMAYI ENGELLER */
-            background-color: #000; 
-            color: #fff; 
-            font-family: 'Inter', sans-serif;
-            overscroll-behavior-y: none; /* Sayfa bittiğinde yaylanmayı kapatır */
-        }
-
-        /* --- ANA KAPSAN --- */
-        .container { 
-            width: 100%; 
-            max-width: 480px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            min-height: 100vh; 
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
+        /* TEMA: SİYAH & GOLD */
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        .container { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; box-sizing: border-box; position: relative; }
         
         /* HEADER */
         .header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #222; }
         .header h1 { color: #D4AF37; margin: 0; font-family: 'Playfair Display', serif; font-size: 26px; letter-spacing: 2px; }
         .header p { color: #666; font-size: 10px; letter-spacing: 3px; margin-top: 5px; text-transform: uppercase; }
 
-        /* YENİLE BUTONU */
+        /* YENİLE BUTONU (Sadece Creator Modda Görünecek Şekilde Ayarlandı) */
         .refresh-btn {
-            position: absolute; top: 20px; right: 20px;
+            position: absolute; top: 0; right: 0;
             background: #1a1a1a; color: #D4AF37; border: 1px solid #333;
             width: 35px; height: 35px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 14px; z-index: 20;
+            cursor: pointer; font-size: 14px; z-index: 10;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
+        .refresh-btn:active { transform: rotate(180deg); transition: 0.3s; }
 
         /* --- MÜŞTERİ PANELİ --- */
-        #creator-mode { display: block; width: 100%; }
+        #creator-mode { display: block; position: relative; }
         
-        .guide-box { background: #111; border: 1px solid #333; border-radius: 12px; padding: 15px; margin-bottom: 25px; }
-        .guide-step { font-size: 12px; color: #ccc; margin-bottom: 10px; display: flex; gap: 10px; line-height: 1.4; align-items: flex-start; }
-        .guide-step i { color: #D4AF37; margin-top: 3px; flex-shrink: 0; }
+        .guide-box { background: #111; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 30px; margin-top: 20px; }
+        .guide-step { font-size: 13px; color: #ccc; margin-bottom: 12px; display: flex; gap: 12px; line-height: 1.5; }
+        .guide-step i { color: #D4AF37; margin-top: 3px; font-size: 14px; }
         .warning-text { color: #ff4444; font-weight: bold; text-decoration: underline; }
 
         .btn-drive {
@@ -65,15 +44,16 @@
         }
         .btn-drive i { color: #1FA463; font-size: 18px; }
 
-        .input-group { margin-bottom: 20px; width: 100%; }
+        .input-group { margin-bottom: 20px; }
         .input-label { color: #eee; font-size: 12px; font-weight: 600; margin-bottom: 8px; display: block; text-transform: uppercase; }
         .input-label i { color: #D4AF37; width: 20px; }
         
-        .paste-wrapper { display: flex; gap: 8px; width: 100%; }
+        .paste-wrapper { display: flex; gap: 8px; }
         
         input, textarea { 
             width: 100%; background: #080808; border: 1px solid #333; color: #fff; 
-            padding: 15px; border-radius: 10px; font-size: 14px; font-family: inherit; 
+            padding: 15px; border-radius: 10px; box-sizing: border-box; 
+            font-size: 14px; font-family: inherit; 
         }
         input:focus, textarea:focus { border-color: #D4AF37; outline: none; background: #151515; }
         
@@ -85,57 +65,48 @@
         
         .btn-gold { width: 100%; background: linear-gradient(135deg, #D4AF37, #B59028); border: none; padding: 18px; color: #000; font-weight: bold; border-radius: 10px; cursor: pointer; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
         
-        #result-area { display: none; margin-top: 30px; background: #111; padding: 20px; border-radius: 12px; border: 1px dashed #555; text-align: center; width: 100%; }
+        #result-area { display: none; margin-top: 30px; background: #111; padding: 20px; border-radius: 12px; border: 1px dashed #555; text-align: center; }
         .result-link { word-break: break-all; font-family: monospace; font-size: 11px; color: #0f0; background: #000; padding: 15px; border-radius: 8px; border: 1px solid #222; margin: 15px 0; }
         .btn-copy { background: #333; color: #fff; border: 1px solid #555; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        
-        .btn-reset-large {
-            width: 100%; background: #111; border: 1px solid #333; color: #888;
-            padding: 15px; border-radius: 10px; margin-top: 30px; cursor: pointer;
-            font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
-        }
+        .btn-reset-large { width: 100%; background: #111; border: 1px solid #333; color: #888; padding: 15px; border-radius: 10px; margin-top: 30px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- MİSAFİR PANELİ --- */
-        #viewer-mode { display: none; padding-top: 20px; width: 100%; }
+        #viewer-mode { display: none; padding-top: 20px; }
 
         .menu-btn { 
             background: #111; border: 1px solid #222; border-radius: 16px; 
             padding: 25px 20px; margin-bottom: 20px; cursor: pointer;
             display: flex; align-items: center; justify-content: space-between;
             transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            text-decoration: none; width: 100%;
+            text-decoration: none;
         }
         .menu-btn:active { transform: scale(0.98); background: #1a1a1a; }
         
         .menu-left { display: flex; align-items: center; gap: 20px; }
-        .menu-icon { width: 50px; height: 50px; background: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #D4AF37; font-size: 20px; border: 1px solid #333; flex-shrink: 0; }
+        .menu-icon { width: 50px; height: 50px; background: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #D4AF37; font-size: 20px; border: 1px solid #333; }
         .menu-text h3 { margin: 0; font-size: 16px; font-weight: 600; color: #eee; }
         .menu-text p { margin: 4px 0 0; font-size: 11px; color: #777; }
         .menu-arrow { color: #444; }
 
-        /* MODALLAR (Full Ekran) */
+        /* MODALLAR */
         .fullscreen-modal { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; flex-direction: column; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .modal-header { padding: 20px; background: #0a0a0a; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
         .modal-title { color: #D4AF37; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
-        .close-icon { font-size: 32px; color: #fff; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .close-icon { font-size: 32px; color: #fff; cursor: pointer; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
         .modal-body { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; }
         iframe { width: 100%; height: 100%; border: none; display: block; }
         .note-container { padding: 40px 30px; color: #ddd; font-family: 'Playfair Display', serif; font-size: 22px; line-height: 1.8; text-align: center; white-space: pre-wrap; height: 100%; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
         .audio-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #050505; }
         .audio-anim { font-size: 80px; color: #222; margin-bottom: 40px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
-        .footer { text-align: center; font-size: 10px; color: #444; margin-top: 50px; letter-spacing: 2px; text-transform: uppercase; padding-bottom: 20px; }
+        .footer { text-align: center; font-size: 10px; color: #444; margin-top: 50px; letter-spacing: 2px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div class="container">
         
-        <div class="refresh-btn" onclick="resetApp()" title="Sayfayı Temizle">
-            <i class="fas fa-sync-alt"></i>
-        </div>
-
         <div class="header" id="mainHeader">
             <h1>FthLabz</h1>
             <p>Digital Miras</p>
@@ -143,6 +114,10 @@
 
         <div id="creator-mode">
             
+            <div class="refresh-btn" onclick="resetApp()" title="Sayfayı Temizle">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+
             <div class="guide-box">
                 <div class="guide-step"><i class="fas fa-1"></i> <span>Drive'da dosyanın yanındaki 3 noktaya basın.</span></div>
                 <div class="guide-step"><i class="fas fa-2"></i> <span>"Paylaş" > "Erişimi Yönet" kısmına girin.</span></div>
@@ -197,12 +172,7 @@
             <div id="btnFolder" class="menu-btn" onclick="openFolder()" style="display:none;">
                 <div class="menu-left"><div class="menu-icon"><i class="fas fa-folder-open"></i></div><div class="menu-text"><h3>Dijital Miras Klasörü</h3><p>Albüme gitmek için dokun</p></div></div><div class="menu-arrow"><i class="fas fa-external-link-alt"></i></div>
             </div>
-            
-            <div class="footer">
-                POWERED BY FTHLABZ<br><br>
-                <span onclick="resetApp()" style="color:#333; cursor:pointer;">[Kurulum Moduna Dön]</span>
-            </div>
-        </div>
+            <div class="footer">POWERED BY FTHLABZ</div> </div>
     </div>
 
     <div id="modalNot" class="fullscreen-modal"><div class="modal-header"><span class="modal-title">Günlük Mesaj</span><div class="close-icon" onclick="closeModal('not')">&times;</div></div><div class="modal-body"><div id="contentNot" class="note-container"></div></div></div>
@@ -227,10 +197,20 @@
         const f = params.get('f');
 
         if (n || s || f) {
+            // MİSAFİR MODUNA GEÇİŞ
             document.getElementById('creator-mode').style.display = 'none';
             document.getElementById('mainHeader').style.display = 'none';
             document.getElementById('viewer-mode').style.display = 'block';
-            if(n) { document.getElementById('btnNot').style.display = 'flex'; document.getElementById('contentNot').innerText = decodeURIComponent(n); }
+
+            // 1. Not Varsa -> BUTONU GÖSTER VE OTOMATİK AÇ
+            if(n) { 
+                document.getElementById('btnNot').style.display = 'flex'; 
+                document.getElementById('contentNot').innerText = decodeURIComponent(n); 
+                
+                // *** BURASI OTOMATİK AÇILMA KODU ***
+                openModal('not'); 
+            }
+
             if(s) document.getElementById('btnSes').style.display = 'flex';
             if(f) document.getElementById('btnFolder').style.display = 'flex';
         }
