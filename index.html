@@ -2,9 +2,6 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dijital Anı</title>
     
@@ -26,23 +23,30 @@
         /* KURULUM PANELİ */
         #creator-mode { display: block; }
         
-        /* TARAMA BUTONLARI */
-        .scan-actions { display: flex; gap: 10px; margin-bottom: 20px; }
-        .scan-btn { 
-            flex: 1; background: #111; border: 1px dashed #D4AF37; border-radius: 12px; 
-            padding: 15px; text-align: center; cursor: pointer; color: #D4AF37; font-size: 12px; font-weight: bold;
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-        }
-        .scan-btn i { font-size: 20px; }
-        .scan-btn:active { background: #222; }
-
-        /* KAMERA ALANI */
-        #reader { width: 100%; border-radius: 12px; overflow: hidden; display: none; margin-bottom: 20px; border: 2px solid #D4AF37; background: #000; }
-        /* Dosya Yükleme Inputu (Gizli) */
-        #qr-input-file { display: none; }
-
         .guide-box { background: #0a0a0a; border: 1px solid #222; border-radius: 10px; padding: 15px; margin-bottom: 20px; font-size: 11px; color: #aaa; line-height: 1.5; }
 
+        /* TARAMA ALANI */
+        .scan-wrapper {
+            background: #111; border: 1px solid #333; border-radius: 12px; padding: 15px; margin-bottom: 20px;
+        }
+        .scan-buttons { display: flex; gap: 10px; margin-bottom: 10px; }
+        .scan-btn { 
+            flex: 1; background: #222; border: 1px dashed #D4AF37; color: #D4AF37; 
+            padding: 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+        }
+        
+        /* KAMERA GÖRÜNÜMÜ */
+        #reader { 
+            width: 100%; border-radius: 10px; overflow: hidden; display: none; margin-top: 10px; 
+            border: 2px solid #D4AF37; position: relative; background: #000;
+        }
+        /* Dosya input gizli */
+        #qr-input-file { display: none; }
+
+        /* B PLANI: Link Yapıştırma */
+        .manual-paste { margin-top: 10px; display: none; border-top: 1px solid #333; padding-top: 10px; }
+        
         .input-group { margin-bottom: 15px; }
         label { display: block; color: #ccc; font-size: 11px; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
         input, textarea { 
@@ -53,7 +57,6 @@
 
         .btn-gold { width: 100%; background: linear-gradient(135deg, #D4AF37, #B59028); color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 14px; }
         
-        /* SONUÇ ALANI */
         #result-area { display: none; margin-top: 30px; background: #111; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center; }
         .result-link { word-break: break-all; font-family: monospace; font-size: 11px; color: #0f0; background: #000; padding: 10px; border-radius: 6px; margin: 10px 0; border: 1px solid #222; }
         .btn-copy { background: #333; color: #fff; border: 1px solid #555; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 12px; }
@@ -102,23 +105,34 @@
     <div id="creator-mode">
         
         <div class="guide-box">
-            <b>DÜZENLEME MODU:</b> Mevcut bir albümü düzenlemek için QR kodunu taratın. Bilgiler otomatik dolacaktır.
+            <b>DÜZENLEME MODU:</b> Mevcut bir albümün içeriğini güncellemek için QR kodunu okutun veya eski linki yapıştırın.
         </div>
 
-        <div class="scan-actions">
-            <div class="scan-btn" onclick="startCameraScan()">
-                <i class="fas fa-camera"></i>
-                <span>KAMERA İLE TARA</span>
+        <div class="scan-wrapper">
+            <div class="scan-buttons">
+                <div class="scan-btn" onclick="startCameraScan()">
+                    <i class="fas fa-camera"></i>
+                    <span>KAMERA İLE TARA</span>
+                </div>
+                <div class="scan-btn" onclick="document.getElementById('qr-input-file').click()">
+                    <i class="fas fa-image"></i>
+                    <span>GALERİDEN SEÇ</span>
+                </div>
+                <div class="scan-btn" onclick="toggleManual()">
+                    <i class="fas fa-link"></i>
+                    <span>LİNK YAPIŞTIR</span>
+                </div>
             </div>
-            <div class="scan-btn" onclick="document.getElementById('qr-input-file').click()">
-                <i class="fas fa-image"></i>
-                <span>FOTOĞRAFTAN TARA</span>
+
+            <div id="reader"></div>
+            
+            <input type="file" id="qr-input-file" accept="image/*" onchange="handleFileScan(this)">
+
+            <div id="manualInput" class="manual-paste">
+                <input type="text" id="pasteLinkInput" placeholder="Eski QR linkini buraya yapıştır..." oninput="parsePastedLink(this.value)">
+                <small style="color:#666;">QR okunamıyorsa linki buraya yapıştırın, otomatik dolar.</small>
             </div>
         </div>
-
-        <input type="file" id="qr-input-file" accept="image/*" onchange="handleFileScan(this)">
-
-        <div id="reader"></div>
 
         <div class="input-group">
             <label>Albüm Başlığı</label>
@@ -146,7 +160,7 @@
             <div style="color:#D4AF37; font-weight:bold; margin-bottom:10px;">✅ YENİ LİNK HAZIR!</div>
             <div class="result-link" id="finalUrl">...</div>
             <button class="btn-copy" onclick="copyUrl()">Linki Kopyala</button>
-            <p style="font-size:10px; color:#666; margin-top:10px;">Bu linki kopyalayıp NFC Tools ile etikete yazın.</p>
+            <p style="font-size:10px; color:#666; margin-top:10px;">NFC Tools ile etikete yazın. Masadaki QR değişmez, sadece içerik değişir.</p>
         </div>
     </div>
 
@@ -182,7 +196,6 @@
 <div id="modalSes" class="modal"><div class="modal-head"><span>Ses Anısı</span><div class="close-btn" onclick="closeModal('ses')">&times;</div></div><div class="modal-body"><iframe id="contentSes" style="width:90%; height:120px; border:none; border-radius:12px;"></iframe></div></div>
 
 <script>
-    // URL PARAMETRELERİNİ OKU
     const params = new URLSearchParams(window.location.search);
     const t = params.get('t'); 
     const n = params.get('n'); 
@@ -199,57 +212,97 @@
         if(f) document.getElementById('btnFolder').style.display = 'flex';
     }
 
-    // --- 1. KAMERA İLE TARAMA ---
+    // --- 1. KAMERA İLE TARAMA (GÜÇLENDİRİLMİŞ AYARLAR) ---
+    let html5QrCode;
+    
     function startCameraScan() {
         document.getElementById('reader').style.display = 'block';
-        const html5QrCode = new Html5Qrcode("reader");
+        document.getElementById('manualInput').style.display = 'none'; // Manueli kapat
         
-        // "videoConstraints: { facingMode: 'environment' }" ayarı önemli
+        html5QrCode = new Html5Qrcode("reader");
+        
+        const config = { 
+            fps: 10, 
+            qrbox: { width: 250, height: 250 },
+            aspectRatio: 1.0,
+            experimentalFeatures: {
+                useBarCodeDetectorIfSupported: true // TELEFONUN KENDİ OKUYUCUSUNU ZORLA
+            }
+        };
+
         html5QrCode.start(
             { facingMode: "environment" }, 
-            { fps: 10, qrbox: 250 },
+            config,
             (decodedText, decodedResult) => {
+                // Başarılı Okuma
                 html5QrCode.stop();
                 document.getElementById('reader').style.display = 'none';
                 fillFromUrl(decodedText);
             },
             (errorMessage) => {
-                // Tarama sırasında sürekli hata dönebilir, yoksay
+                // Okumaya çalışıyor...
             }
         ).catch(err => {
-            alert("Kamera başlatılamadı! Lütfen izinleri kontrol edin veya 'Fotoğraftan Tara' butonunu kullanın.");
+            alert("Kamera hatası! Lütfen 'Fotoğraftan Tara' veya 'Link Yapıştır' seçeneğini kullanın.");
             document.getElementById('reader').style.display = 'none';
         });
     }
 
-    // --- 2. DOSYA (FOTOĞRAF) İLE TARAMA ---
+    // --- 2. FOTOĞRAFTAN TARAMA ---
     function handleFileScan(input) {
         if (input.files.length === 0) return;
         
         const imageFile = input.files[0];
         const html5QrCode = new Html5Qrcode("reader");
         
+        // Yüksek çözünürlük için dosyayı tara
         html5QrCode.scanFile(imageFile, true)
         .then(decodedText => {
             fillFromUrl(decodedText);
         })
         .catch(err => {
-            alert("QR Kod okunamadı. Fotoğrafın net olduğundan emin olun.");
+            alert("QR Kod çok karmaşık olduğu için okunamadı. Lütfen 'LİNK YAPIŞTIR' butonunu kullanarak eski linki manuel giriniz.");
         });
     }
 
-    // --- LİNK ÇÖZÜMLEME VE DOLDURMA ---
+    // --- 3. MANUEL LİNK YAPIŞTIRMA (B PLANI) ---
+    function toggleManual() {
+        const div = document.getElementById('manualInput');
+        div.style.display = div.style.display === 'none' ? 'block' : 'none';
+        if(html5QrCode) { html5QrCode.stop(); document.getElementById('reader').style.display = 'none'; }
+    }
+
+    function parsePastedLink(url) {
+        if(url.includes("?")) {
+            fillFromUrl(url);
+        }
+    }
+
+    // --- ORTAK DOLDURMA FONKSİYONU ---
     function fillFromUrl(url) {
         try {
-            const urlObj = new URL(url);
+            // Tam URL mi yoksa sadece parametre mi geldi kontrol et
+            let urlToParse = url;
+            if(!url.startsWith("http")) {
+                urlToParse = "http://fake.com" + (url.startsWith("?") ? url : "?" + url);
+            }
+            
+            const urlObj = new URL(urlToParse);
             const p = urlObj.searchParams;
-            if(p.get('t')) document.getElementById('inTitle').value = decodeURIComponent(p.get('t'));
-            if(p.get('n')) document.getElementById('inNot').value = decodeURIComponent(p.get('n'));
-            if(p.get('s')) document.getElementById('inSes').value = p.get('s');
-            if(p.get('f')) document.getElementById('inFolder').value = p.get('f');
-            alert("Bilgiler QR'dan başarıyla çekildi!");
+            
+            let filled = false;
+            if(p.get('t')) { document.getElementById('inTitle').value = decodeURIComponent(p.get('t')); filled = true; }
+            if(p.get('n')) { document.getElementById('inNot').value = decodeURIComponent(p.get('n')); filled = true; }
+            if(p.get('s')) { document.getElementById('inSes').value = p.get('s'); filled = true; }
+            if(p.get('f')) { document.getElementById('inFolder').value = p.get('f'); filled = true; }
+            
+            if(filled) {
+                alert("Bilgiler başarıyla yüklendi! Düzenleyip 'Güncelle' butonuna basabilirsiniz.");
+                document.getElementById('manualInput').style.display = 'none'; // İş bitince kapat
+            }
         } catch(e) {
-            alert("Bu QR kod bu sisteme ait değil veya link bozuk.");
+            // Hata olursa sessiz kal veya uyar
+            console.log("Link ayrıştırma hatası", e);
         }
     }
     
