@@ -241,23 +241,20 @@
             if(type === 'ses') document.getElementById('contentSes').src = cleanLink(s);
         }
 
-        // --- GÜNCELLENMİŞ KLASÖR AÇMA FONKSİYONU ---
+        // --- TAM EKRAN AÇILMA GARANTİLİ FONKSİYON ---
         function openFolder() {
             if(!f) return;
             
-            // Linki temizle ve mobilleştir
             let mobileLink = f;
             try {
-                // Eğer link klasör içeriyorsa, ID'yi çek ve temiz link oluştur
                 if(f.includes("/folders/")) {
                     const id = f.split("/folders/")[1].split("?")[0].split("&")[0];
-                    // "usp=sharing" parametresi mobilde düzgün açılmasını sağlar
                     mobileLink = `https://drive.google.com/drive/folders/${id}?usp=sharing`;
                 }
-            } catch(e) { console.log("Link hatası", e); }
+            } catch(e) {}
 
-            // Yeni sekmede aç (App varsa App açılır, yoksa Mobil Site açılır)
-            window.open(mobileLink, '_blank');
+            // location.href = SAYFAYI YÖNLENDİR (Uygulama veya Mobil Siteyi Zorlar)
+            window.location.href = mobileLink;
         }
 
         function closeModal(type) {
