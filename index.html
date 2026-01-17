@@ -6,295 +6,289 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dijital Anı Defteri</title>
+    <title>Dijital Anı</title>
+    
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* TEMA: SİYAH & GOLD */
+        /* TEMA: SİYAH & GOLD PREMIUM */
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        .container { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; box-sizing: border-box; position: relative; }
+        .container { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; position: relative; padding-bottom: 50px; }
         
-        /* HEADER (Üst Kısım) */
-        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #222; }
-        .header h1 { color: #D4AF37; margin: 0; font-family: 'Playfair Display', serif; font-size: 28px; letter-spacing: 1px; text-transform: uppercase; line-height: 1.3; }
+        /* HEADER */
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 15px; }
+        .header h1 { color: #D4AF37; margin: 0; font-family: 'Playfair Display', serif; font-size: 26px; letter-spacing: 1px; }
+        .slogan { color: #888; font-size: 11px; font-style: italic; margin-top: 8px; font-family: 'Playfair Display', serif; }
+
+        /* KURULUM PANELİ */
+        #creator-mode { display: block; }
         
-        /* ANLAMLI YAZI (Slogan) */
-        .slogan-text { 
-            color: #888; font-size: 13px; font-style: italic; margin-top: 15px; 
-            line-height: 1.6; font-family: 'Playfair Display', serif; 
-            padding: 0 10px;
+        .scan-box {
+            background: #111; border: 1px dashed #D4AF37; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; cursor: pointer;
         }
-
-        /* YENİLE BUTONU (Sadece Kurulumda) */
-        .refresh-btn {
-            position: absolute; top: 0; right: 0;
-            background: #1a1a1a; color: #D4AF37; border: 1px solid #333;
-            width: 35px; height: 35px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 14px; z-index: 10;
-        }
-
-        /* --- KURULUM PANELİ --- */
-        #creator-mode { display: block; position: relative; }
+        .scan-text { color: #D4AF37; font-weight: bold; font-size: 14px; margin-top: 10px; display: block; }
         
-        .guide-box { background: #111; border: 1px solid #333; border-radius: 12px; padding: 15px; margin-bottom: 25px; margin-top: 10px; }
-        .guide-step { font-size: 12px; color: #ccc; margin-bottom: 8px; display: flex; gap: 10px; line-height: 1.4; }
-        .guide-step i { color: #D4AF37; margin-top: 3px; font-size: 14px; }
-        .warning-text { color: #ff4444; font-weight: bold; }
+        #reader { width: 100%; border-radius: 10px; overflow: hidden; display: none; margin-bottom: 20px; border: 2px solid #D4AF37; }
 
-        .btn-drive {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            background: #222; color: #fff; width: 100%; padding: 15px;
-            border-radius: 10px; border: 1px solid #333; text-decoration: none;
-            font-size: 14px; font-weight: bold; margin-bottom: 25px;
-        }
-        .btn-drive i { color: #1FA463; font-size: 18px; }
+        .guide-box { background: #0a0a0a; border: 1px solid #222; border-radius: 10px; padding: 15px; margin-bottom: 20px; font-size: 11px; color: #aaa; line-height: 1.5; }
+        .guide-highlight { color: #fff; font-weight: bold; }
 
-        .input-group { margin-bottom: 20px; }
-        .input-label { color: #eee; font-size: 12px; font-weight: 600; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
-        .input-label i { color: #D4AF37; width: 20px; }
-        
-        .paste-wrapper { display: flex; gap: 8px; }
-        
+        .input-group { margin-bottom: 15px; }
+        label { display: block; color: #ccc; font-size: 11px; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
         input, textarea { 
-            width: 100%; background: #080808; border: 1px solid #333; color: #fff; 
-            padding: 15px; border-radius: 10px; box-sizing: border-box; 
-            font-size: 14px; font-family: inherit; 
+            width: 100%; background: #151515; border: 1px solid #333; color: #fff; padding: 12px; 
+            border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 13px;
         }
-        input:focus, textarea:focus { border-color: #D4AF37; outline: none; background: #151515; }
-        
-        .btn-paste {
-            background: #D4AF37; color: #000; border: none; border-radius: 10px;
-            width: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 18px; flex-shrink: 0;
-        }
-        
-        .btn-gold { width: 100%; background: linear-gradient(135deg, #D4AF37, #B59028); border: none; padding: 18px; color: #000; font-weight: bold; border-radius: 10px; cursor: pointer; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
-        
-        #result-area { display: none; margin-top: 30px; background: #111; padding: 20px; border-radius: 12px; border: 1px dashed #555; text-align: center; }
-        .result-link { word-break: break-all; font-family: monospace; font-size: 11px; color: #0f0; background: #000; padding: 15px; border-radius: 8px; border: 1px solid #222; margin: 15px 0; }
-        .btn-copy { background: #333; color: #fff; border: 1px solid #555; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        .btn-reset-large { width: 100%; background: #111; border: 1px solid #333; color: #888; padding: 15px; border-radius: 10px; margin-top: 30px; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        input:focus, textarea:focus { border-color: #D4AF37; outline: none; background: #000; }
 
-        /* --- İZLEYİCİ PANELİ --- */
+        .btn-gold { width: 100%; background: linear-gradient(135deg, #D4AF37, #B59028); color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 14px; }
+        
+        /* SONUÇ ALANI */
+        #result-area { display: none; margin-top: 30px; background: #111; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center; }
+        .result-link { word-break: break-all; font-family: monospace; font-size: 11px; color: #0f0; background: #000; padding: 10px; border-radius: 6px; margin: 10px 0; border: 1px solid #222; }
+        .btn-copy { background: #333; color: #fff; border: 1px solid #555; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+
+        /* İZLEYİCİ PANELİ */
         #viewer-mode { display: none; padding-top: 10px; }
-
-        .menu-btn { 
-            background: #111; border: 1px solid #222; border-radius: 16px; 
-            padding: 25px 20px; margin-bottom: 20px; cursor: pointer;
-            display: flex; align-items: center; justify-content: space-between;
-            transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            text-decoration: none;
-        }
-        .menu-btn:active { transform: scale(0.98); background: #1a1a1a; }
         
-        .menu-left { display: flex; align-items: center; gap: 20px; }
-        .menu-icon { width: 50px; height: 50px; background: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #D4AF37; font-size: 20px; border: 1px solid #333; }
-        .menu-text h3 { margin: 0; font-size: 16px; font-weight: 600; color: #eee; }
+        .menu-btn { 
+            background: #111; border: 1px solid #222; padding: 25px 20px; margin-bottom: 15px; 
+            border-radius: 16px; display: flex; align-items: center; gap: 20px; cursor: pointer; 
+            transition: 0.2s; 
+        }
+        .menu-btn:active { transform: scale(0.98); background: #222; border-color: #D4AF37; }
+        
+        .menu-icon { 
+            width: 45px; height: 45px; background: #000; border-radius: 50%; border: 1px solid #333;
+            display: flex; align-items: center; justify-content: center; color: #D4AF37; font-size: 18px;
+        }
+        .menu-text h3 { margin: 0; font-size: 15px; font-weight: 600; color: #eee; }
         .menu-text p { margin: 4px 0 0; font-size: 11px; color: #777; }
-        .menu-arrow { color: #444; }
+        .menu-arrow { margin-left: auto; color: #444; }
+
+        /* YENİLEME BUTONU (SAĞ ÜST) */
+        .refresh-icon { position: absolute; top: 0; right: 0; color: #333; padding: 10px; cursor: pointer; }
 
         /* MODALLAR */
-        .fullscreen-modal { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; flex-direction: column; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .modal-header { padding: 20px; background: #0a0a0a; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
-        .modal-title { color: #D4AF37; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
-        .close-icon { font-size: 32px; color: #fff; cursor: pointer; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
-        .modal-body { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; }
-        iframe { width: 100%; height: 100%; border: none; display: block; }
-        .note-container { padding: 40px 30px; color: #ddd; font-family: 'Playfair Display', serif; font-size: 22px; line-height: 1.8; text-align: center; white-space: pre-wrap; height: 100%; overflow-y: auto; display: flex; align-items: center; justify-content: center; }
-        .audio-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #050505; }
-        .audio-anim { font-size: 80px; color: #222; margin-bottom: 40px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
-        .footer { text-align: center; font-size: 10px; color: #444; margin-top: 50px; letter-spacing: 2px; text-transform: uppercase; }
+        .modal { position: fixed; inset: 0; background: #000; z-index: 100; display: none; flex-direction: column; animation: fadeIn 0.3s; }
+        .modal-head { padding: 20px; background: #111; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; color: #D4AF37; font-family: 'Playfair Display', serif; }
+        .close-btn { font-size: 28px; cursor: pointer; padding: 0 10px; }
+        .modal-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .note-content { font-family: 'Playfair Display', serif; font-size: 18px; line-height: 1.6; color: #ddd; white-space: pre-wrap; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
+    
+    <div class="refresh-icon" onclick="window.location.href=window.location.pathname"><i class="fas fa-sync"></i></div>
+
+    <div class="header">
+        <h1 id="dispTitle">FthLabz</h1>
+        <p class="slogan">"Geçmişten geleceğe bırakılan en değerli miras,<br>sevgiyle hatırlanan anılardır."</p>
+    </div>
+
+    <div id="creator-mode">
         
-        <div class="header" id="mainHeader">
-            <h1 id="pageTitle">FthLabz</h1>
-            <p id="sloganText" class="slogan-text">"Geçmişten geleceğe bırakılan en değerli miras,<br>sevgiyle hatırlanan anılardır."</p>
+        <div class="scan-box" onclick="startScan()">
+            <i class="fas fa-qrcode fa-2x" style="color:#D4AF37;"></i>
+            <span class="scan-text">DÜZENLEMEK İÇİN QR OKUT</span>
+        </div>
+        <div id="reader"></div>
+
+        <div class="guide-box">
+            Bu panel ile <b>Yeni Albüm</b> oluşturabilir veya <b>Mevcut QR</b> kodunuzu okutup düzenleyebilirsiniz.<br><br>
+            <span style="color:#D4AF37">⚠️ DİKKAT:</span> Masaya basılı QR kodun bozulmaması için, <b>sadece</b> Google Drive'daki dosya içeriklerini değiştirin (Sürüm Yönetimi). Yeni link oluşturursanız basılı QR çöp olur.
         </div>
 
-        <div id="creator-mode">
-            
-            <div class="refresh-btn" onclick="resetApp()" title="Sayfayı Temizle">
-                <i class="fas fa-sync-alt"></i>
-            </div>
-
-            <div class="guide-box">
-                <div class="guide-step"><i class="fas fa-1"></i> <span>Drive'da bir albüm veya dosya oluşturun.</span></div>
-                <div class="guide-step"><i class="fas fa-2"></i> <span>Bağlantı ayarını <span class="warning-text">"Herkes"</span> ve <span class="warning-text">"Görüntüleyen"</span> yapın.</span></div>
-                <div class="guide-step"><i class="fas fa-3"></i> <span>Aşağıdaki kutuları doldurup QR'ınızı oluşturun.</span></div>
-                <div class="guide-step"><i class="fas fa-heart" style="color:#D4AF37"></i> <span>Bu sistem; bebek albümleri, anı defterleri veya özel günler için uygundur.</span></div>
-            </div>
-            
-            <a href="https://drive.google.com" target="_blank" class="btn-drive">
-                <i class="fab fa-google-drive"></i> Google Drive Uygulamasını Aç
-            </a>
-
-            <div class="input-group">
-                <label class="input-label"><i class="fas fa-heading"></i> Albüm Başlığı (Örn: Zehra'nın Anıları)</label>
-                <div class="paste-wrapper">
-                    <input type="text" id="inTitle" placeholder="Sayfanın en üstünde görünecek isim...">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label class="input-label"><i class="fas fa-book-open"></i> Hikayemiz / Anı Defteri</label>
-                <div class="paste-wrapper">
-                    <textarea id="inNot" rows="3" placeholder="Bu anının hikayesini yazın..."></textarea>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label class="input-label"><i class="fas fa-music"></i> Ses Anısı (Bebek Sesi / Mesaj)</label>
-                <div class="paste-wrapper">
-                    <input type="text" id="inSes" placeholder="Ses linki...">
-                    <button class="btn-paste" onclick="pasteFromClipboard('inSes')"><i class="fas fa-paste"></i></button>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label class="input-label"><i class="fas fa-images"></i> Fotoğraf Albümü Linki</label>
-                <div class="paste-wrapper">
-                    <input type="text" id="inFolder" placeholder="Drive klasör linki...">
-                    <button class="btn-paste" onclick="pasteFromClipboard('inFolder')"><i class="fas fa-paste"></i></button>
-                </div>
-            </div>
-
-            <button class="btn-gold" onclick="generateLink()">Albümü Oluştur</button>
-
-            <div id="result-area">
-                <div style="color:#D4AF37; font-weight:bold; font-size:14px; margin-bottom:10px;">✅ NFC LİNKİNİZ HAZIR!</div>
-                <div class="result-link" id="finalUrl">...</div>
-                <button class="btn-copy" onclick="copyUrl()">Kopyala</button>
-                <button class="btn-reset-large" onclick="resetApp()"><i class="fas fa-redo"></i> Yeni Link Oluştur / Temizle</button>
-            </div>
+        <div class="input-group">
+            <label>Albüm Başlığı (Sabit)</label>
+            <input type="text" id="inTitle" placeholder="Örn: Zehra'nın Anıları">
+        </div>
+        
+        <div class="input-group">
+            <label>Hikaye / Not (Sabit)</label>
+            <textarea id="inNot" rows="3" placeholder="Anı notunuz..."></textarea>
         </div>
 
-        <div id="viewer-mode">
-            
-            <div id="btnNot" class="menu-btn" onclick="openModal('not')" style="display:none;">
-                <div class="menu-left"><div class="menu-icon"><i class="fas fa-book-open"></i></div><div class="menu-text"><h3>Hikayemiz</h3><p>Notu okumak için dokun</p></div></div><div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
-            </div>
-            
-            <div id="btnSes" class="menu-btn" onclick="openModal('ses')" style="display:none;">
-                <div class="menu-left"><div class="menu-icon"><i class="fas fa-music"></i></div><div class="menu-text"><h3>Ses Anısı</h3><p>Dinlemek için dokun</p></div></div><div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
-            </div>
-            
-            <div id="btnFolder" class="menu-btn" onclick="openFolder()" style="display:none;">
-                <div class="menu-left"><div class="menu-icon"><i class="fas fa-images"></i></div><div class="menu-text"><h3>Fotoğraf Albümü</h3><p>İncelemek için dokun</p></div></div><div class="menu-arrow"><i class="fas fa-external-link-alt"></i></div>
-            </div>
-            
-            <div class="footer">POWERED BY FTHLABZ</div>
+        <div class="input-group">
+            <label>Google Drive Klasör Linki (Anahtar)</label>
+            <input type="text" id="inFolder" placeholder="İçinde video ve resim olan klasör linki">
+            <small style="color:#555; font-size:9px;">*QR Kod bu klasöre bağlanır. İçeriği klasörden yönetirsiniz.</small>
+        </div>
+
+        <div class="input-group">
+            <label>Ses/Video Linki (Opsiyonel)</label>
+            <input type="text" id="inSes" placeholder="Ayrı bir ses dosyası varsa linki...">
+        </div>
+
+        <button class="btn-gold" onclick="generateLink()">Albümü Oluştur / Güncelle</button>
+
+        <div id="result-area">
+            <div style="color:#D4AF37; font-weight:bold; margin-bottom:10px;">✅ QR LİNKİNİZ HAZIR!</div>
+            <div class="result-link" id="finalUrl">...</div>
+            <button class="btn-copy" onclick="copyUrl()">Linki Kopyala</button>
         </div>
     </div>
 
-    <div id="modalNot" class="fullscreen-modal"><div class="modal-header"><span class="modal-title">Hikayemiz</span><div class="close-icon" onclick="closeModal('not')">&times;</div></div><div class="modal-body"><div id="contentNot" class="note-container"></div></div></div>
-    <div id="modalSes" class="fullscreen-modal"><div class="modal-header"><span class="modal-title">Ses Anısı</span><div class="close-icon" onclick="closeModal('ses')">&times;</div></div><div class="modal-body"><div class="audio-container"><i class="fas fa-volume-up audio-anim"></i><iframe id="contentSes" style="width:90%; height:100px; border:none; border-radius:12px;"></iframe></div></div></div>
+    <div id="viewer-mode">
+        <div id="btnNot" class="menu-btn" onclick="openModal('not')" style="display:none;">
+            <div class="menu-icon"><i class="fas fa-book-open"></i></div>
+            <div class="menu-text"><h3>Hikayemiz</h3><p>Anı notunu okumak için dokun</p></div>
+            <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
 
-    <script>
-        function resetApp() { window.location.href = window.location.pathname; }
+        <div id="btnSes" class="menu-btn" onclick="openModal('ses')" style="display:none;">
+            <div class="menu-icon"><i class="fas fa-music"></i></div>
+            <div class="menu-text"><h3>Ses Anısı</h3><p>Dinlemek için dokun</p></div>
+            <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
 
-        async function pasteFromClipboard(elementId) {
-            try {
-                const text = await navigator.clipboard.readText();
-                if(text) document.getElementById(elementId).value = text;
-                else alert("Pano boş.");
-            } catch (err) {
-                alert('Lütfen kutuya basılı tutup yapıştırın.');
+        <div id="btnFolder" class="menu-btn" onclick="openFolder()" style="display:none;">
+            <div class="menu-icon"><i class="fas fa-images"></i></div>
+            <div class="menu-text"><h3>Fotoğraf Albümü</h3><p>Galeriye gitmek için dokun</p></div>
+            <div class="menu-arrow"><i class="fas fa-external-link-alt"></i></div>
+        </div>
+        
+        <div style="text-align:center; margin-top:30px; font-size:10px; color:#333;">POWERED BY FTHLABZ</div>
+        
+        <div style="text-align:center; margin-top:20px; opacity:0.3;" onclick="switchToEdit()">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+</div>
+
+<div id="modalNot" class="modal"><div class="modal-head"><span>Hikayemiz</span><div class="close-btn" onclick="closeModal('not')">&times;</div></div><div class="modal-body"><div id="contentNot" class="note-content"></div></div></div>
+<div id="modalSes" class="modal"><div class="modal-head"><span>Ses Anısı</span><div class="close-btn" onclick="closeModal('ses')">&times;</div></div><div class="modal-body"><iframe id="contentSes" style="width:90%; height:120px; border:none; border-radius:12px;"></iframe></div></div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    // Parametreleri al
+    const t = params.get('t'); 
+    const n = params.get('n'); 
+    const s = params.get('s'); 
+    const f = params.get('f'); 
+
+    // BAŞLIK VARSA YAZ
+    if(t) document.getElementById('dispTitle').innerText = decodeURIComponent(t);
+
+    // EĞER VERİ VARSA İZLEYİCİ MODUNU AÇ
+    if (n || s || f) {
+        document.getElementById('creator-mode').style.display = 'none';
+        document.getElementById('viewer-mode').style.display = 'block';
+
+        if(n) { document.getElementById('btnNot').style.display = 'flex'; document.getElementById('contentNot').innerText = decodeURIComponent(n); }
+        if(s) document.getElementById('btnSes').style.display = 'flex';
+        if(f) document.getElementById('btnFolder').style.display = 'flex';
+    }
+
+    // --- QR TARAYICI FONKSİYONLARI ---
+    function startScan() {
+        document.getElementById('reader').style.display = 'block';
+        const html5QrCode = new Html5Qrcode("reader");
+        html5QrCode.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            (decodedText, decodedResult) => {
+                html5QrCode.stop();
+                document.getElementById('reader').style.display = 'none';
+                fillFromUrl(decodedText);
+            },
+            (errorMessage) => {}
+        ).catch(err => {
+            alert("Kamera izni verilmeli veya desteklenmiyor.");
+            document.getElementById('reader').style.display = 'none';
+        });
+    }
+
+    function fillFromUrl(url) {
+        try {
+            const urlObj = new URL(url);
+            const p = urlObj.searchParams;
+            if(p.get('t')) document.getElementById('inTitle').value = decodeURIComponent(p.get('t'));
+            if(p.get('n')) document.getElementById('inNot').value = decodeURIComponent(p.get('n'));
+            if(p.get('s')) document.getElementById('inSes').value = p.get('s');
+            if(p.get('f')) document.getElementById('inFolder').value = p.get('f');
+            alert("Bilgiler yüklendi! Düzenleyip tekrar oluşturabilirsiniz.");
+        } catch(e) {
+            alert("Bu QR kod bu sisteme ait değil.");
+        }
+    }
+    
+    // İzleyici Modundayken Düzenleme Moduna Geçiş (Gizli Buton İçin)
+    function switchToEdit() {
+        if(confirm("Bu albümü düzenlemek istiyor musunuz?")) {
+            document.getElementById('viewer-mode').style.display = 'none';
+            document.getElementById('creator-mode').style.display = 'block';
+            // Mevcut verileri forma doldur
+            if(t) document.getElementById('inTitle').value = decodeURIComponent(t);
+            if(n) document.getElementById('inNot').value = decodeURIComponent(n);
+            if(s) document.getElementById('inSes').value = s;
+            if(f) document.getElementById('inFolder').value = f;
+        }
+    }
+
+    // --- LİNK OLUŞTURMA ---
+    function generateLink() {
+        const title = document.getElementById('inTitle').value.trim();
+        const not = document.getElementById('inNot').value.trim();
+        const ses = document.getElementById('inSes').value.trim();
+        const folder = document.getElementById('inFolder').value.trim();
+
+        if(!not && !ses && !folder) { alert("Lütfen en az bir içerik girin."); return; }
+
+        const baseUrl = window.location.href.split('?')[0];
+        const p = new URLSearchParams();
+        if(title) p.set('t', title);
+        if(not) p.set('n', not);
+        if(ses) p.set('s', ses);
+        if(folder) p.set('f', folder);
+        
+        const final = `${baseUrl}?${p.toString()}`;
+        document.getElementById('result-area').style.display = 'block';
+        document.getElementById('finalUrl').innerText = final;
+    }
+
+    function copyUrl() {
+        navigator.clipboard.writeText(document.getElementById('finalUrl').innerText).then(() => alert("Kopyalandı! NFC Tools ile yazabilirsiniz."));
+    }
+
+    // --- MODAL VE LİNK AÇMA ---
+    function openModal(type) {
+        document.getElementById('modal' + capitalize(type)).style.display = 'flex';
+        if(type === 'ses') document.getElementById('contentSes').src = cleanLink(s);
+    }
+
+    function openFolder() {
+        if(!f) return;
+        let mobileLink = f;
+        try {
+            if(f.includes("/folders/")) {
+                const id = f.split("/folders/")[1].split("?")[0].split("&")[0];
+                mobileLink = `https://drive.google.com/drive/folders/${id}?usp=sharing`;
             }
-        }
+        } catch(e) {}
+        window.location.href = mobileLink;
+    }
 
-        const params = new URLSearchParams(window.location.search);
-        const t = params.get('t'); // Title
-        const n = params.get('n'); // Not
-        const s = params.get('s'); // Ses
-        const f = params.get('f'); // Folder
+    function closeModal(type) {
+        document.getElementById('modal' + capitalize(type)).style.display = 'none';
+        if(type === 'ses') document.getElementById('contentSes').src = "";
+    }
 
-        // Başlığı ayarla
-        if(t) {
-            document.getElementById('pageTitle').innerText = decodeURIComponent(t);
-        }
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+    function cleanLink(l) { 
+        if(!l) return "";
+        try { if(l.includes("/d/")) return `https://drive.google.com/file/d/${l.split("/d/")[1].split("/")[0]}/preview`; } catch(e){}
+        return l; 
+    }
+</script>
 
-        if (n || s || f) {
-            document.getElementById('creator-mode').style.display = 'none';
-            document.getElementById('viewer-mode').style.display = 'block';
-
-            // ARTIK OTOMATİK AÇILMA YOK. Sadece butonu gösteriyoruz.
-            if(n) { 
-                document.getElementById('btnNot').style.display = 'flex'; 
-                document.getElementById('contentNot').innerText = decodeURIComponent(n); 
-            }
-
-            if(s) document.getElementById('btnSes').style.display = 'flex';
-            if(f) document.getElementById('btnFolder').style.display = 'flex';
-        }
-
-        function generateLink() {
-            const title = document.getElementById('inTitle').value.trim();
-            const not = document.getElementById('inNot').value.trim();
-            const ses = document.getElementById('inSes').value.trim();
-            const folder = document.getElementById('inFolder').value.trim();
-
-            if(!not && !ses && !folder) { alert("Lütfen en az bir içerik ekleyin."); return; }
-
-            const baseUrl = window.location.href.split('?')[0];
-            const p = new URLSearchParams();
-            
-            if(title) p.set('t', title);
-            if(not) p.set('n', not);
-            if(ses) p.set('s', ses);
-            if(folder) p.set('f', folder);
-            
-            const final = `${baseUrl}?${p.toString()}`;
-            document.getElementById('result-area').style.display = 'block';
-            document.getElementById('finalUrl').innerText = final;
-        }
-
-        function copyUrl() {
-            navigator.clipboard.writeText(document.getElementById('finalUrl').innerText).then(() => alert("Kopyalandı!"));
-        }
-
-        function openModal(type) {
-            document.getElementById('modal' + capitalize(type)).style.display = 'flex';
-            if(type === 'ses') document.getElementById('contentSes').src = cleanLink(s);
-        }
-
-        function openFolder() {
-            if(!f) return;
-            let mobileLink = f;
-            try {
-                if(f.includes("/folders/")) {
-                    const id = f.split("/folders/")[1].split("?")[0].split("&")[0];
-                    mobileLink = `https://drive.google.com/drive/folders/${id}?usp=sharing`;
-                }
-            } catch(e) {}
-            window.location.href = mobileLink;
-        }
-
-        function closeModal(type) {
-            document.getElementById('modal' + capitalize(type)).style.display = 'none';
-            if(type === 'ses') document.getElementById('contentSes').src = "";
-        }
-
-        function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
-
-        function cleanLink(link) {
-            if(!link) return "";
-            if(!link.includes("drive.google.com")) return link;
-            if(link.includes("/folders")) return link;
-            let id = "";
-            try {
-                if (link.includes("/d/")) id = link.split("/d/")[1].split("/")[0];
-                else if (link.includes("id=")) id = link.split("id=")[1].split("&")[0];
-            } catch (e) { return link; }
-            return `https://drive.google.com/file/d/${id}/preview`;
-        }
-    </script>
 </body>
 </html>
