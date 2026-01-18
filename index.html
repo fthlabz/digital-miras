@@ -136,8 +136,8 @@
 </div>
 
 <script>
-    // SENİN ALDIĞIN LİNKİ BURAYA YAPIŞTIRDIM:
-    const API_URL = "https://script.google.com/macros/s/AKfycbwIdK9qkpvi5YMgoKBVBFq6k-6DQoxHpshO1wyKxpD2trBRQ6FgQ7kkx_zeBFjTjDGEpg/exec"; 
+    // *** YENİ ALDIĞIN LİNKİ BURAYA KOYDUM ***
+    const API_URL = "https://script.google.com/macros/s/AKfycbypgMb5URFmLu5aHqqOACygD3jk4jj9ZygbkKXvLlVHrncHSkC-T74DBV6g5JNstX9bUA/exec"; 
 
     const urlParams = new URLSearchParams(window.location.search);
     const currentID = urlParams.get('id');
@@ -169,7 +169,7 @@
             }
         })
         .catch(err => {
-            document.getElementById('loading').innerText = "Bağlantı Hatası!";
+            document.getElementById('loading').innerText = "Bağlantı Hatası! (Sunucu meşgul olabilir)";
         });
     }
 
