@@ -9,15 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- DOKUNMATİK HASSASİYETİ GERİ GELDİ --- */
+        /* --- KİLİTLERİ KALDIRDIK - RAHAT KAYDIRMA --- */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         html, body {
             background-color: #000; color: #fff; font-family: 'Inter', sans-serif; 
             margin: 0; padding: 0; 
             width: 100%; min-height: 100vh;
-            /* ÖNEMLİ: position: fixed kaldırıldı. Artık parmak hareketi engellenmiyor. */
-            overflow-x: hidden; /* Sadece yatay taşmayı engeller */
+            /* position: fixed ve overflow yasaklarını kaldırdım */
         }
 
         .container { 
@@ -49,11 +48,14 @@
         input:focus, textarea:focus { border-color: #D4AF37; outline: none; background: #050505; }
         .main-btn { width: 100%; background: #D4AF37; color: #000; padding: 18px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 30px; font-size: 14px; letter-spacing: 1px; }
 
-        /* BİLGİ KUTUSU */
-        .info-box { background: #1a1a1a; border: 1px dashed #444; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 11px; color: #bbb; line-height: 1.6; }
-        .info-box strong { color: #fff; display: block; margin-bottom: 5px; }
-        .info-step { display: flex; gap: 10px; margin-bottom: 8px; }
-        .info-num { background: #333; color: #D4AF37; width: 18px; height: 18px; border-radius: 50%; text-align: center; line-height: 18px; font-weight: bold; flex-shrink: 0; }
+        /* DETAYLI KILAVUZ KUTUSU */
+        .guide-box { 
+            background: #151515; border: 1px solid #333; padding: 15px; 
+            border-radius: 12px; margin-bottom: 20px; font-size: 12px; color: #ccc; line-height: 1.6;
+        }
+        .guide-title { color: #D4AF37; font-weight: bold; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; display: block; }
+        .guide-step { margin-bottom: 8px; padding-left: 10px; border-left: 2px solid #444; }
+        .guide-sub { font-size: 11px; color: #888; margin-top: 2px; }
 
         /* --- MODAL (GÖRÜNTÜLEYİCİ) --- */
         #viewer-modal {
@@ -90,7 +92,7 @@
         .lock-icon { font-size: 40px; color: #D4AF37; margin-bottom: 20px; }
     </style>
 </head>
-<body>
+<body onclick="resetTimer()" onmousemove="resetTimer()" onkeypress="resetTimer()" ontouchstart="resetTimer()">
 
 <div class="container">
     <div class="header"><h1>FthLabz</h1><p class="slogan">"Geçmişten geleceğe bırakılan en değerli miras..."</p></div>
@@ -105,19 +107,38 @@
     </div>
 
     <div id="setup-panel" class="panel">
-        <div class="gold-card"><h2 class="user-title">Albüm Kurulumu</h2><p style="font-size:11px; color:#888;">Lütfen aşağıdaki bilgileri doldurun.</p></div>
+        <div class="gold-card"><h2 class="user-title">Albüm Kurulumu</h2><p style="font-size:11px; color:#888;">Lütfen aşağıdaki adımları sırayla takip edin.</p></div>
         
-        <div class="info-box">
-            <strong>⚠️ Drive Linki Nasıl Alınır?</strong>
-            <div class="info-step"><div class="info-num">1</div><div>Drive'da klasörün yanındaki 3 noktaya tıkla.</div></div>
-            <div class="info-step"><div class="info-num">2</div><div>"Paylaş" (Share) seçeneğini seç.</div></div>
-            <div class="info-step"><div class="info-num">3</div><div>Erişimi <b>"Bağlantıya sahip herkes"</b> yap.</div></div>
-            <div class="info-step"><div class="info-num">4</div><div>"Bağlantıyı Kopyala" de ve buraya yapıştır.</div></div>
+        <div class="guide-box">
+            <span class="guide-title">1. DRIVE HESABI VE KLASÖRLER</span>
+            <div class="guide-step">Google Drive uygulamasını açın veya indirin.</div>
+            <div class="guide-step">Hesabınız yoksa yeni bir Gmail hesabı oluşturun.</div>
+            <div class="guide-step">3 tane Yeni Klasör oluşturun ve şu isimleri verin:
+                <br><span style="color:#D4AF37">Videolar</span>, <span style="color:#D4AF37">Resimler</span>, <span style="color:#D4AF37">Sesler</span>
+            </div>
+        </div>
+
+        <div class="guide-box">
+            <span class="guide-title">2. RESİM VE VİDEO YÜKLEME (KOLAY YOL)</span>
+            <div class="guide-step">Telefonunuzun kendi Galerisini açın.</div>
+            <div class="guide-step">Yüklemek istediğiniz fotoğraf veya videolara basılı tutun ve seçin.</div>
+            <div class="guide-step">Parmağınızı kaldırmadan, diğer elinizle Drive uygulamasını açın.</div>
+            <div class="guide-step">İlgili klasörün içine (Örn: Resimler) sürükleyip bırakın.</div>
+            <div class="guide-sub">* Yükleme bitene kadar bekleyin.</div>
+        </div>
+
+        <div class="guide-box">
+            <span class="guide-title">3. LİNKLERİ ALMA VE YAPIŞTIRMA</span>
+            <div class="guide-step">Drive'da klasörün yanındaki 3 noktaya (...) tıklayın.</div>
+            <div class="guide-step">"Paylaş" veya "Erişimi Yönet" deyin.</div>
+            <div class="guide-step">"Kısıtlı" yazan yeri <b>"Bağlantıya sahip herkes"</b> yapın.</div>
+            <div class="guide-step">Zincir (Link) simgesine basıp kopyalayın ve aşağıdaki kutulara yapıştırın.</div>
         </div>
 
         <label>1. ALBÜM BAŞLIĞI</label><input type="text" id="inTitle" placeholder="Örn: Canım Ailem">
-        <label>2. ANI DEFTERİM (NOTUNUZ)</label><textarea id="inNot" rows="4" placeholder="Anılarınızı buraya yazın..."></textarea>
-        <label>3. GÜNLÜK SESLİ MESAJ LİNKİ (OPSİYONEL)</label><input type="text" id="inSes" placeholder="Drive dosya linki">
+        <label>2. ANI DEFTERİM</label><textarea id="inNot" rows="4" placeholder="Anılarınızı buraya yazın..."></textarea>
+        <label>3. SESLİ MESAJ LİNKİ (OPSİYONEL)</label><input type="text" id="inSes" placeholder="Drive dosya linki">
+        
         <div style="border-top: 1px dashed #333; margin-top: 25px; padding-top:10px;">
             <label style="color:#fff;">4. KLASÖR LİNKLERİ (ZORUNLU)</label>
             <input type="text" id="inVideoLink" placeholder="VİDEOLAR Klasör Linki" style="margin-bottom:10px;">
@@ -160,10 +181,57 @@
     const urlParams = new URLSearchParams(window.location.search);
     const currentID = urlParams.get('id');
     let pageData = {}, encryptedData = {};
+    
+    // --- GÜVENLİK SAYACI (1 SAAT = 3600000 ms) ---
+    let inactivityTimer;
+    const TIMEOUT_DURATION = 3600000; 
+
+    function resetTimer() {
+        clearTimeout(inactivityTimer);
+        // Sadece giriş yapılmışsa sayacı başlat
+        if(document.getElementById('view-panel').style.display === 'block') {
+            inactivityTimer = setTimeout(lockScreen, TIMEOUT_DURATION);
+        }
+    }
+
+    function lockScreen() {
+        pageData = {};
+        document.getElementById('displayTitle').innerText = "...";
+        document.getElementById('unlockPass').value = "";
+        document.getElementById('view-panel').style.display = 'none';
+        closeViewer(); 
+        document.getElementById('password-screen').style.display = 'block';
+        alert("🔒 Güvenlik: 1 saat işlem yapılmadığı için oturum kilitlendi.");
+    }
 
     window.onload = function() { if (!currentID) { document.getElementById('loading').innerHTML = "ID Bulunamadı (Örn: ?id=1001)"; return; } fetchData(); };
     function fetchData() { fetch(API_URL + "?action=read&id=" + currentID).then(res => res.json()).then(data => { document.getElementById('loading').style.display = 'none'; if (data.status === "empty") { document.getElementById('setup-panel').style.display = 'block'; } else { encryptedData = data; document.getElementById('password-screen').style.display = 'block'; } }).catch(err => alert("Veri çekilemedi.")); }
-    function unlockAlbum() { const pass = document.getElementById('unlockPass').value; if(!pass) return alert("Şifre giriniz."); try { const title = CryptoJS.AES.decrypt(encryptedData.title, pass).toString(CryptoJS.enc.Utf8); if(!title) throw "Hatalı Şifre"; const not = CryptoJS.AES.decrypt(encryptedData.not, pass).toString(CryptoJS.enc.Utf8); const combinedBytes = CryptoJS.AES.decrypt(encryptedData.folder, pass).toString(CryptoJS.enc.Utf8); const folders = combinedBytes.split('|||'); let ses = ""; if(encryptedData.ses) { ses = CryptoJS.AES.decrypt(encryptedData.ses, pass).toString(CryptoJS.enc.Utf8); } pageData = { title: title, not: not, ses: ses, videoFolder: folders[0], photoFolder: folders[1], soundFolder: folders[2], pass: pass }; document.getElementById('displayTitle').innerText = title; if(!ses) document.getElementById('btnSes').style.display = 'none'; if(!folders[0]) document.getElementById('btnVideo').style.display = 'none'; if(!folders[1]) document.getElementById('btnPhoto').style.display = 'none'; if(!folders[2]) document.getElementById('btnSound').style.display = 'none'; document.getElementById('password-screen').style.display = 'none'; document.getElementById('view-panel').style.display = 'block'; } catch(e) { alert("Hatalı Şifre!"); } }
+    
+    function unlockAlbum() { 
+        const pass = document.getElementById('unlockPass').value; 
+        if(!pass) return alert("Şifre giriniz."); 
+        try { 
+            const title = CryptoJS.AES.decrypt(encryptedData.title, pass).toString(CryptoJS.enc.Utf8); 
+            if(!title) throw "Hatalı Şifre"; 
+            const not = CryptoJS.AES.decrypt(encryptedData.not, pass).toString(CryptoJS.enc.Utf8); 
+            const combinedBytes = CryptoJS.AES.decrypt(encryptedData.folder, pass).toString(CryptoJS.enc.Utf8); 
+            const folders = combinedBytes.split('|||'); 
+            let ses = ""; 
+            if(encryptedData.ses) { ses = CryptoJS.AES.decrypt(encryptedData.ses, pass).toString(CryptoJS.enc.Utf8); } 
+            pageData = { title: title, not: not, ses: ses, videoFolder: folders[0], photoFolder: folders[1], soundFolder: folders[2], pass: pass }; 
+            
+            document.getElementById('displayTitle').innerText = title; 
+            if(!ses) document.getElementById('btnSes').style.display = 'none'; 
+            if(!folders[0]) document.getElementById('btnVideo').style.display = 'none'; 
+            if(!folders[1]) document.getElementById('btnPhoto').style.display = 'none'; 
+            if(!folders[2]) document.getElementById('btnSound').style.display = 'none'; 
+            
+            document.getElementById('password-screen').style.display = 'none'; 
+            document.getElementById('view-panel').style.display = 'block'; 
+            
+            resetTimer(); 
+        } catch(e) { alert("Hatalı Şifre!"); } 
+    }
     
     function getFolderId(url) { const match = url.match(/folders\/([-a-zA-Z0-9_]+)/); return match ? match[1] : null; }
     
