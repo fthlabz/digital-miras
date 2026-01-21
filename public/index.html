@@ -12,7 +12,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: radial-gradient(circle at top, rgba(212, 175, 55, 0.08), transparent 45%), #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; width: 100%; min-height: 100vh; overflow-x: hidden; }
 
-        .container { max-width: 520px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 18px; position: relative; }
+        .container { max-width: 520px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 18px 18px 90px; position: relative; }
 
         .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #1f1f1f; padding-bottom: 16px; }
         .header h1 { color: #D4AF37; margin: 0; font-family: 'Playfair Display', serif; font-size: 30px; letter-spacing: 1.5px; }
@@ -59,6 +59,10 @@
 
         .footer { text-align: center; margin-top: auto; padding-top: 20px; font-size: 10px; color: #333; letter-spacing: 2px; }
         .admin-lock { position: fixed; bottom: 90px; right: 18px; opacity: 0.35; cursor: pointer; font-size: 12px; padding: 10px; background: #111; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid #222; }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #050505; border-top: 1px solid #1f1f1f; display: flex; justify-content: space-around; padding: 12px 18px 20px; z-index: 50; }
+        .nav-item { color: #9b9b9b; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .nav-item i { font-size: 18px; color: #D4AF37; }
 
         .modal { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; flex-direction: column; width: 100%; height: 100%; }
         .modal-header { height: 60px; background: #050505; border-bottom: 1px solid #222; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 10000; flex-shrink: 0; }
@@ -165,6 +169,13 @@
         <div class="admin-lock" onclick="enableEdit()"><i class="fas fa-pen"></i></div>
     </div>
     <div class="footer">POWERED BY FTHLABZ</div>
+</div>
+
+<div class="bottom-nav">
+    <div class="nav-item"><i class="fas fa-home"></i>Home</div>
+    <div class="nav-item"><i class="fas fa-images"></i>Albüm</div>
+    <div class="nav-item"><i class="fas fa-microphone-alt"></i>Ses</div>
+    <div class="nav-item"><i class="fas fa-user-shield"></i>Profil</div>
 </div>
 
 <div id="main-modal" class="modal">
