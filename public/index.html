@@ -15,23 +15,20 @@
         
         .container { max-width: 520px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 16px; position: relative; }
         
-        /* Arka Plan Efekti */
         .bg-glow { position: absolute; inset: 0; background: radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.12), transparent 40%), radial-gradient(circle at 85% 90%, rgba(212, 175, 55, 0.08), transparent 45%); pointer-events: none; opacity: 1; z-index: 0; }
 
         .header { text-align: center; margin-bottom: 25px; border-bottom: 1px solid #1f1f1f; padding-bottom: 15px; position: relative; z-index: 1; }
-        .header h1 { color: #D4AF37; margin: 0; font-family: 'Playfair Display', serif; font-size: 32px; letter-spacing: 1.5px; text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2); }
+        .header h1 { color: #D4AF37; margin: 0; font-family: 'Playfair Display', serif; font-size: 32px; letter-spacing: 1.5px; }
         .slogan { color: #8f8f8f; font-size: 11px; font-style: italic; margin-top: 6px; }
 
         #loading { text-align: center; margin-top: 60px; color: #D4AF37; font-size: 12px; letter-spacing: 2px; position: relative; z-index: 1; }
 
-        /* QR UYARISI */
         #browser-alert { display: none; background: #D4AF37; color: #000; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 11px; font-weight: bold; position: relative; z-index: 2; box-shadow: 0 5px 15px rgba(212,175,55,0.2); }
 
-        /* PANELLER */
         .panel { display: none; position: relative; z-index: 1; animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* KURULUM KARTLARI */
+        /* KURULUM */
         .hero-card { background: linear-gradient(150deg, rgba(212, 175, 55, 0.1), rgba(10, 10, 10, 0.9)); border: 1px solid rgba(212, 175, 55, 0.2); padding: 20px; border-radius: 16px; margin-bottom: 20px; text-align: center; }
         .hero-title { font-family: 'Playfair Display', serif; font-size: 18px; color: #D4AF37; margin-bottom: 5px; }
         .hero-desc { font-size: 11px; color: #ccc; }
@@ -41,45 +38,28 @@
         input:focus, textarea:focus { border-color: #D4AF37; outline: none; background: #141414; }
         
         .btn-gold { width: 100%; background: linear-gradient(135deg, #D4AF37, #B59028); color: #000; padding: 16px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 14px; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(212,175,55,0.15); transition: 0.2s; }
-        .btn-gold:active { transform: scale(0.98); }
-
-        /* ŞİFRE EKRANI */
+        
+        /* ŞİFRE */
         #password-screen { text-align: center; padding-top: 60px; }
-        .lock-icon { font-size: 40px; color: #D4AF37; margin-bottom: 20px; text-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        .lock-icon { font-size: 40px; color: #D4AF37; margin-bottom: 20px; }
 
-        /* İZLEYİCİ EKRANI */
+        /* MENÜ */
         .title-card { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 25px; border-bottom: 1px solid #222; padding-bottom: 15px; color: #D4AF37; text-align: center; }
 
-        /* HIZLI ERİŞİM (YUVARLAKLAR) */
         .quick-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-        .quick-btn { 
-            width: 65px; height: 65px; border-radius: 50%; 
-            background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 1px solid #333;
-            display: flex; align-items: center; justify-content: center; 
-            color: #D4AF37; font-size: 22px; cursor: pointer; transition: 0.2s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .quick-btn:active { transform: scale(0.95); border-color: #D4AF37; }
+        .quick-btn { width: 65px; height: 65px; border-radius: 50%; background: linear-gradient(145deg, #1a1a1a, #0d0d0d); border: 1px solid #333; display: flex; align-items: center; justify-content: center; color: #D4AF37; font-size: 22px; cursor: pointer; transition: 0.2s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .quick-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .quick-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* LİSTE MENÜ */
         .menu-list { display: flex; flex-direction: column; gap: 12px; }
-        .menu-item { 
-            display: flex; align-items: center; gap: 16px; 
-            background: #0f0f0f; border: 1px solid #222; padding: 16px; 
-            border-radius: 14px; cursor: pointer; transition: 0.2s;
-        }
-        .menu-item:active { background: #1a1a1a; transform: scale(0.99); }
+        .menu-item { display: flex; align-items: center; gap: 16px; background: #0f0f0f; border: 1px solid #222; padding: 16px; border-radius: 14px; cursor: pointer; transition: 0.2s; }
         .menu-icon { color: #D4AF37; font-size: 18px; width: 36px; height: 36px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
         .menu-text h3 { margin: 0; font-size: 14px; color: #eee; font-weight: 600; }
         .menu-text p { margin: 2px 0 0; font-size: 10px; color: #777; }
 
         .admin-edit { position: fixed; bottom: 20px; right: 20px; opacity: 0.3; width: 30px; height: 30px; background: #111; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; border: 1px solid #333; z-index: 10; }
-
         .footer { text-align: center; margin-top: 40px; font-size: 10px; color: #444; letter-spacing: 2px; }
 
-        /* SADECE METİN İÇİN MODAL */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; display: none; flex-direction: column; animation: fadeIn 0.3s; }
         .modal-head { padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; color: #D4AF37; }
         .close-btn { font-size: 24px; cursor: pointer; color:#fff;}
@@ -90,35 +70,24 @@
 
 <div class="container">
     <div class="bg-glow"></div>
-    
     <div id="browser-alert">⚠️ Tam performans için <b>"Tarayıcıda Aç"</b> (Chrome/Safari) seçeneğini kullanın.</div>
 
-    <div class="header">
-        <h1>FthLabz</h1>
-        <p class="slogan">"Geçmişten geleceğe bırakılan en değerli miras..."</p>
-    </div>
-
+    <div class="header"><h1>FthLabz</h1><p class="slogan">"Geçmişten geleceğe bırakılan en değerli miras..."</p></div>
     <div id="loading"><i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>Veriler Çekiliyor...</div>
 
     <div id="setup-panel" class="panel">
-        <div class="hero-card">
-            <div class="hero-title">Albüm Kurulumu</div>
-            <div class="hero-desc">Lütfen Google Drive linklerinizi girin.</div>
-        </div>
-
+        <div class="hero-card"><div class="hero-title">Albüm Kurulumu</div><div class="hero-desc">Lütfen Google Drive linklerinizi girin.</div></div>
+        
         <label>1. ALBÜM BAŞLIĞI</label><input type="text" id="inTitle" placeholder="Örn: Canım Ailem">
         <label>2. ANI DEFTERİ</label><textarea id="inNot" rows="3" placeholder="Anılarınızı buraya yazın..."></textarea>
         <label>3. SESLİ MESAJ (İsteğe Bağlı)</label><input type="text" id="inSes" placeholder="Drive dosya linki">
-        
         <label style="color:#D4AF37; border-top:1px dashed #333; padding-top:15px; margin-top:15px;">4. KLASÖR LİNKLERİ (ZORUNLU)</label>
         <input type="text" id="inVideoLink" placeholder="VİDEOLAR Klasör Linki">
         <input type="text" id="inPhotoLink" placeholder="RESİMLER Klasör Linki">
         <input type="text" id="inSoundLink" placeholder="SESLER Klasör Linki">
-        
         <label style="color:#D4AF37; margin-top:15px;">ŞİFRE BELİRLE</label>
         <input type="password" id="inPass" placeholder="Şifreniz">
         <input type="password" id="inPassConfirm" placeholder="Şifre Tekrar">
-
         <button class="btn-gold" onclick="saveData()">KAYDET VE BİTİR</button>
     </div>
 
@@ -131,55 +100,20 @@
 
     <div id="view-panel" class="panel">
         <div id="displayTitle" class="title-card">...</div>
-
         <div class="quick-row">
-            <div class="quick-wrap" onclick="openTextModal()">
-                <div class="quick-btn"><i class="fas fa-book"></i></div>
-                <span class="quick-label">Defter</span>
-            </div>
-            <div class="quick-wrap" onclick="openLink('ses')">
-                <div class="quick-btn"><i class="fas fa-microphone-alt"></i></div>
-                <span class="quick-label">Sesli</span>
-            </div>
-            <div class="quick-wrap" onclick="openLink('video')">
-                <div class="quick-btn"><i class="fas fa-video"></i></div>
-                <span class="quick-label">Video</span>
-            </div>
-            <div class="quick-wrap" onclick="openLink('photo')">
-                <div class="quick-btn"><i class="fas fa-images"></i></div>
-                <span class="quick-label">Resim</span>
-            </div>
+            <div class="quick-wrap" onclick="openTextModal()"><div class="quick-btn"><i class="fas fa-book"></i></div><span class="quick-label">Defter</span></div>
+            <div class="quick-wrap" onclick="openLink('ses')"><div class="quick-btn"><i class="fas fa-microphone-alt"></i></div><span class="quick-label">Sesli</span></div>
+            <div class="quick-wrap" onclick="openLink('video')"><div class="quick-btn"><i class="fas fa-video"></i></div><span class="quick-label">Video</span></div>
+            <div class="quick-wrap" onclick="openLink('photo')"><div class="quick-btn"><i class="fas fa-images"></i></div><span class="quick-label">Resim</span></div>
         </div>
-
         <div style="text-align:left; color:#888; font-size:11px; margin-bottom:10px; letter-spacing:1px; text-transform:uppercase;">Albüm İçeriği</div>
-
         <div class="menu-list">
-            <div class="menu-item" onclick="openTextModal()">
-                <div class="menu-icon"><i class="fas fa-book"></i></div>
-                <div class="menu-text"><h3>Anı Defterim</h3><p>Okumak için dokun</p></div>
-            </div>
-
-            <div class="menu-item" onclick="openLink('ses')" id="listSes">
-                <div class="menu-icon"><i class="fas fa-microphone-alt"></i></div>
-                <div class="menu-text"><h3>Günlük Sesli Mesaj</h3><p>Dinlemek için dokun</p></div>
-            </div>
-
-            <div class="menu-item" onclick="openLink('video')" id="listVideo">
-                <div class="menu-icon"><i class="fas fa-video"></i></div>
-                <div class="menu-text"><h3>Dijital Albüm Videolar</h3><p>İzlemek için dokun</p></div>
-            </div>
-
-            <div class="menu-item" onclick="openLink('photo')" id="listPhoto">
-                <div class="menu-icon"><i class="fas fa-images"></i></div>
-                <div class="menu-text"><h3>Dijital Albüm Resimler</h3><p>Görüntülemek için dokun</p></div>
-            </div>
-
-            <div class="menu-item" onclick="openLink('sound')" id="listSound">
-                <div class="menu-icon"><i class="fas fa-music"></i></div>
-                <div class="menu-text"><h3>Dijital Albüm Sesler</h3><p>Arşivi dinlemek için dokun</p></div>
-            </div>
+            <div class="menu-item" onclick="openTextModal()"><div class="menu-icon"><i class="fas fa-book"></i></div><div class="menu-text"><h3>Anı Defterim</h3><p>Okumak için dokun</p></div></div>
+            <div class="menu-item" onclick="openLink('ses')" id="listSes"><div class="menu-icon"><i class="fas fa-microphone-alt"></i></div><div class="menu-text"><h3>Günlük Sesli Mesaj</h3><p>Dinlemek için dokun</p></div></div>
+            <div class="menu-item" onclick="openLink('video')" id="listVideo"><div class="menu-icon"><i class="fas fa-video"></i></div><div class="menu-text"><h3>Dijital Albüm Videolar</h3><p>İzlemek için dokun</p></div></div>
+            <div class="menu-item" onclick="openLink('photo')" id="listPhoto"><div class="menu-icon"><i class="fas fa-images"></i></div><div class="menu-text"><h3>Dijital Albüm Resimler</h3><p>Görüntülemek için dokun</p></div></div>
+            <div class="menu-item" onclick="openLink('sound')" id="listSound"><div class="menu-icon"><i class="fas fa-music"></i></div><div class="menu-text"><h3>Dijital Albüm Sesler</h3><p>Arşivi dinlemek için dokun</p></div></div>
         </div>
-
         <div class="admin-edit" onclick="enableEdit()"><i class="fas fa-pen"></i></div>
         <div class="footer">POWERED BY FTHLABZ</div>
     </div>
@@ -191,6 +125,7 @@
 </div>
 
 <script>
+    // ⚠️ BURAYI KENDİ URL'N İLE DEĞİŞTİRMEYİ UNUTMA
     const API_URL = "https://script.google.com/macros/s/AKfycbypgMb5URFmLu5aHqqOACygD3jk4jj9ZygbkKXvLlVHrncHSkC-T74DBV6g5JNstX9bUA/exec"; 
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -198,17 +133,11 @@
     let pageData = {};
     let encryptedData = {};
 
-    // QR Tarayıcı Kontrolü
     const ua = navigator.userAgent || navigator.vendor || window.opera;
-    if ((ua.indexOf('Instagram') > -1) || (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)) {
-        document.getElementById('browser-alert').style.display = 'block';
-    }
+    if ((ua.indexOf('Instagram') > -1) || (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1)) { document.getElementById('browser-alert').style.display = 'block'; }
 
     window.onload = function() {
-        if (!currentID) {
-            document.body.innerHTML = "<div style='color:#ccc;text-align:center;margin-top:50px;'>ID Eksik</div>";
-            return;
-        }
+        if (!currentID) { document.body.innerHTML = "<div style='color:#ccc;text-align:center;margin-top:50px;'>ID Eksik</div>"; return; }
         checkID();
     };
 
@@ -218,30 +147,25 @@
             document.getElementById('loading').style.display = 'none';
             if (data.status === "empty") { document.getElementById('setup-panel').style.display = 'block'; } 
             else { encryptedData = data; document.getElementById('password-screen').style.display = 'block'; }
-        }).catch(err => alert("Bağlantı Hatası"));
+        }).catch(err => alert("Bağlantı Hatası! İnternet yok veya Link yanlış."));
     }
 
     function unlockAlbum() {
         const pass = document.getElementById('unlockPass').value;
         if(!pass) return alert("Lütfen şifre giriniz.");
-
         try {
             const title = CryptoJS.AES.decrypt(encryptedData.title, pass).toString(CryptoJS.enc.Utf8);
             if(!title) throw "Hatalı Şifre"; 
-
             const not = CryptoJS.AES.decrypt(encryptedData.not, pass).toString(CryptoJS.enc.Utf8);
             const folderStr = CryptoJS.AES.decrypt(encryptedData.folder, pass).toString(CryptoJS.enc.Utf8);
-            const folders = folderStr.split('|||'); // Video, Resim, Ses
-            
+            const folders = folderStr.split('|||'); 
             let ses = "";
             if(encryptedData.ses) ses = CryptoJS.AES.decrypt(encryptedData.ses, pass).toString(CryptoJS.enc.Utf8);
 
             pageData = { title, not, ses, pass, vLink: folders[0], pLink: folders[1], sLink: folders[2] };
-
             document.getElementById('displayTitle').innerText = title;
             document.getElementById('textContent').innerText = not;
 
-            // İçerik yoksa butonları gizle
             if(!ses) document.getElementById('listSes').style.display = 'none';
             if(!folders[0]) document.getElementById('listVideo').style.display = 'none';
             if(!folders[1]) document.getElementById('listPhoto').style.display = 'none';
@@ -249,11 +173,9 @@
 
             document.getElementById('password-screen').style.display = 'none';
             document.getElementById('view-panel').style.display = 'block';
-
         } catch(e) { alert("Şifre Yanlış!"); }
     }
 
-    // --- DİREKT AÇMA MANTIĞI (SWIPE İÇİN) ---
     function openLink(type) {
         let link = "";
         if(type === 'video') link = pageData.vLink;
@@ -264,39 +186,37 @@
              if(fileMatch) link = `https://drive.google.com/file/d/${fileMatch[1]}/preview`;
              else link = pageData.ses;
         }
-
-        if(link) {
-            // Direkt yeni sekmede aç (Telefonda Drive App veya Tarayıcı açar)
-            window.open(link, '_blank');
-        } else {
-            alert("Bu alan boş.");
-        }
+        if(link) window.open(link, '_blank');
+        else alert("Link bulunamadı.");
     }
 
     function saveData() {
         const pass = document.getElementById('inPass').value;
         const passConf = document.getElementById('inPassConfirm').value;
-        
         if(!pass) return alert("Şifre belirleyin!");
         if(pass !== passConf) return alert("Şifreler uyuşmuyor!");
 
-        const combined = `${document.getElementById('inVideoLink').value.trim()}|||${document.getElementById('inPhotoLink').value.trim()}|||${document.getElementById('inSoundLink').value.trim()}`;
-        
         const btn = document.querySelector('.btn-gold');
         btn.innerText = "KAYDEDİLİYOR...";
         btn.disabled = true;
 
-        const encTitle = CryptoJS.AES.encrypt(document.getElementById('inTitle').value, pass).toString();
-        const encNot = CryptoJS.AES.encrypt(document.getElementById('inNot').value, pass).toString();
-        const encFolder = CryptoJS.AES.encrypt(combined, pass).toString();
-        const encSes = CryptoJS.AES.encrypt(document.getElementById('inSes').value, pass).toString();
+        try {
+            const combined = `${document.getElementById('inVideoLink').value.trim()}|||${document.getElementById('inPhotoLink').value.trim()}|||${document.getElementById('inSoundLink').value.trim()}`;
+            const encTitle = CryptoJS.AES.encrypt(document.getElementById('inTitle').value, pass).toString();
+            const encNot = CryptoJS.AES.encrypt(document.getElementById('inNot').value, pass).toString();
+            const encFolder = CryptoJS.AES.encrypt(combined, pass).toString();
+            const encSes = CryptoJS.AES.encrypt(document.getElementById('inSes').value, pass).toString();
 
-        const q = `?action=save&id=${currentID}&password=enc&title=${encodeURIComponent(encTitle)}&not=${encodeURIComponent(encNot)}&folder=${encodeURIComponent(encFolder)}&ses=${encodeURIComponent(encSes)}`;
-        
-        fetch(API_URL + q).then(res => res.json()).then(data => {
-            if(data.status === "success") { alert("✅ Kayıt Başarılı!"); location.reload(); } 
-            else { alert("Hata!"); btn.disabled = false; }
-        });
+            const q = `?action=save&id=${currentID}&password=enc&title=${encodeURIComponent(encTitle)}&not=${encodeURIComponent(encNot)}&folder=${encodeURIComponent(encFolder)}&ses=${encodeURIComponent(encSes)}`;
+            
+            fetch(API_URL + q).then(res => res.json()).then(data => {
+                if(data.status === "success") { alert("✅ Kayıt Başarılı!"); location.reload(); } 
+                else { alert("⚠️ HATA DETAYI: " + JSON.stringify(data)); btn.disabled = false; }
+            }).catch(error => {
+                alert("⚠️ BAĞLANTI HATASI: Lütfen API URL'sini kontrol et. \nHata: " + error);
+                btn.disabled = false;
+            });
+        } catch(err) { alert("Şifreleme Hatası: " + err); btn.disabled = false; }
     }
 
     function openTextModal() { document.getElementById('textModal').style.display = 'flex'; }
