@@ -92,7 +92,7 @@
         .slide video { width: 100%; max-height: 80%; }
 
         .spinner { color: #D4AF37; font-size: 24px; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align: center; }
-        .error-msg { color: #ff4444; font-size: 12px; text-align: center; margin-top: 100px; padding: 20px; border: 1px solid #333; border-radius: 10px; background: rgba(50,0,0,0.5);}
+        .error-msg { color: #ff9999; font-size: 12px; text-align: center; margin-top: 100px; padding: 20px; background: rgba(50,0,0,0.5); border-radius: 10px; width: 80%; margin-left:auto; margin-right:auto; border:1px solid #550000; }
         
         /* METİN MODALI */
         #textModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; display: none; flex-direction: column; }
@@ -171,8 +171,8 @@
 </div>
 
 <script>
-    // ⚠️⚠️ SENİN YENİ ALDIĞIN LİNK BURADA ⚠️⚠️
-    const API_URL = "https://script.google.com/macros/s/AKfycbxSM5y1DKRXAEXGJyKHrQpUGTQ_QCPO4PpG2l-Bm4E59xEs-8HqFy77tXKV579AsJa5Hg/exec"; 
+    // ⚠️⚠️ SENİN VERDİĞİN YENİ LİNK ⚠️⚠️
+    const API_URL = "https://script.google.com/macros/s/AKfycbyvtvYWLmkq8AqmCEhf_FP5fYLaliFpz_p-Jx4_miEM1vgCvHIM8qDS06A5kKP9F6W0ZA/exec"; 
 
     const urlParams = new URLSearchParams(window.location.search);
     const currentID = urlParams.get('id');
@@ -219,7 +219,7 @@
         } catch(e) { alert("Şifre Yanlış!"); }
     }
 
-    // --- HAYALET GALERİ MANTIĞI (İZ BIRAKMAZ & APP AÇMAZ) ---
+    // --- HAYALET GALERİ MANTIĞI ---
     function openGallery(type) {
         let link = "";
         let title = "";
@@ -241,26 +241,24 @@
         .then(data => {
             slider.innerHTML = "";
             if(data.status === "error") {
-                // HATA DETAYI: ID'yi göster ki linkten ne anladığını görelim
-                slider.innerHTML = `<div class="error-msg">⚠️ HATA: ${data.msg}<br><br>Sistem bu ID'yi aradı: <b>${data.triedId || "Bilinmiyor"}</b><br><br>Klasör linkini kontrol edip tekrar deneyin.</div>`;
+                // HATA DETAYINI EKRANA YAZ (DEBUG MODU)
+                slider.innerHTML = `<div class="error-msg">⚠️ BAĞLANTI HATASI<br><br>Sistem Mesajı: ${data.msg}<br><br>Denediğim ID: ${data.triedId || "Yok"}<br><br>Drive Klasörünün Paylaşım Ayarını kontrol edin.</div>`;
                 return;
             }
             if(!data.files || data.files.length === 0) {
-                slider.innerHTML = '<div class="error-msg">Bu klasör boş görünüyor.<br>İçinde resim/video olduğundan emin olun.</div>';
+                slider.innerHTML = '<div class="error-msg">Bu klasör boş görünüyor.</div>';
                 return;
             }
 
             data.files.forEach(file => {
                 const slide = document.createElement('div');
                 slide.className = 'slide';
-                
-                // Güvenli Google Proxy URL (Embed)
                 const proxyUrl = "https://lh3.googleusercontent.com/d/" + file.id + "=s2000";
                 
                 if(file.type === 'image') {
                     slide.innerHTML = `<img src="${proxyUrl}" loading="lazy">`;
                 } else if (file.type === 'video') {
-                    slide.innerHTML = `<div style="text-align:center;"><i class="fas fa-play-circle" style="font-size:50px; color:#D4AF37;"></i><br><br><a href="${proxyUrl}" target="_blank" style="color:#fff; text-decoration:underline; font-size:12px;">Videoyu Oynat</a></div>`;
+                    slide.innerHTML = `<div style="text-align:center;"><i class="fas fa-play-circle" style="font-size:50px; color:#D4AF37;"></i><br><br><a href="${proxyUrl}" target="_blank" style="color:#fff; text-decoration:underline;">Oynat</a></div>`;
                 }
                 slider.appendChild(slide);
             });
@@ -300,7 +298,6 @@
         });
     }
     
-    // --- DÜZENLEME HATASI FİX (VERİLERİ GERİ DOLDURMA) ---
     function enableEdit() {
         if(confirm("Düzenlemek istiyor musunuz?")) {
             document.getElementById('view-panel').style.display='none';
