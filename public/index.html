@@ -65,8 +65,18 @@
         .spinner { color: #D4AF37; font-size: 24px; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align: center; }
         .error-msg { color: #ff9999; font-size: 12px; text-align: center; margin-top: 100px; padding: 20px; background: rgba(50,0,0,0.5); border-radius: 10px; width: 80%; margin-left:auto; margin-right:auto; border:1px solid #550000; }
         
+        /* METİN MODALI (DÜZELTİLDİ: Üstten Boşluk Artırıldı) */
         #textModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; display: none; flex-direction: column; }
-        .text-body { padding: 30px; overflow-y: auto; text-align: center; color: #ddd; font-family: 'Playfair Display', serif; font-size: 18px; line-height: 1.6; }
+        .text-body { 
+            padding: 90px 20px 40px 20px; /* Üstten 90px boşluk bırakıldı */
+            overflow-y: auto; 
+            text-align: center; 
+            color: #ddd; 
+            font-family: 'Playfair Display', serif; 
+            font-size: 18px; 
+            line-height: 1.6; 
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -75,7 +85,7 @@
 
 <div class="container">
     <div class="header"><h1>FthLabz</h1><p class="slogan">"Geçmişten geleceğe bırakılan en değerli miras..."</p></div>
-    <div id="loading"><i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>Sistem Hazırlanıyor...</div>
+    <div id="loading"><i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>Veriler Çekiliyor...</div>
 
     <div id="setup-panel" class="panel">
         <div class="hero-card"><div class="hero-title">Kurulum</div><p style="font-size:11px; color:#aaa;">Drive Linklerini Yapıştırın</p></div>
@@ -141,7 +151,7 @@
 </div>
 
 <script>
-    // ⚠️ SON VE GEÇERLİ API URL
+    // ⚠️ SON API URL
     const API_URL = "https://script.google.com/macros/s/AKfycbyvtvYWLmkq8AqmCEhf_FP5fYLaliFpz_p-Jx4_miEM1vgCvHIM8qDS06A5kKP9F6W0ZA/exec"; 
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -223,11 +233,9 @@
                 slide.className = 'slide';
                 
                 if(file.type === 'image') {
-                    // Resimler için proxy (Thumbnail)
                     const proxyUrl = "https://lh3.googleusercontent.com/d/" + file.id + "=s2000";
                     slide.innerHTML = `<img src="${proxyUrl}" loading="lazy">`;
                 } else if (file.type === 'video') {
-                    // Videoları IFRAME içinde oynat (Gömülü Oynatıcı)
                     const videoUrl = `https://drive.google.com/file/d/${file.id}/preview`;
                     slide.innerHTML = `
                         <div class="video-wrapper">
@@ -264,8 +272,7 @@
         const encFolder = CryptoJS.AES.encrypt(combined, pass).toString();
         const encSes = CryptoJS.AES.encrypt(document.getElementById('inSes').value, pass).toString();
 
-        // ⚠️ DÜZELTME YAPILDI: "¬" karakteri "&not" olarak düzeltildi
-        fetch(API_URL + `?action=save&id=${currentID}&title=${encodeURIComponent(encTitle)}&not=${encodeURIComponent(encNot)}&folder=${encodeURIComponent(encFolder)}&ses=${encodeURIComponent(encSes)}`)
+        fetch(API_URL + `?action=save&id=${currentID}&title=${encodeURIComponent(encTitle)}¬=${encodeURIComponent(encNot)}&folder=${encodeURIComponent(encFolder)}&ses=${encodeURIComponent(encSes)}`)
         .then(res => res.json())
         .then(data => {
             if(data.status==="success") location.reload();
