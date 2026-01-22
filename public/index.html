@@ -24,7 +24,7 @@
         .panel { display: none; animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* KURULUM */
+        /* KURULUM & ŞİFRE */
         .hero-card { background: linear-gradient(150deg, #111, #000); border: 1px solid #333; padding: 20px; border-radius: 16px; margin-bottom: 20px; text-align: center; }
         label { display: block; color: #aaa; font-size: 10px; margin-bottom: 6px; text-transform: uppercase; font-weight: 600; margin-top: 15px; }
         input, textarea { width: 100%; background: #0f0f0f; border: 1px solid #333; color: #fff; padding: 14px; border-radius: 10px; font-family: inherit; font-size: 13px; }
@@ -50,10 +50,10 @@
         .footer { text-align: center; margin-top: 40px; font-size: 10px; color: #444; letter-spacing: 2px; }
         .admin-edit { position: fixed; bottom: 20px; right: 20px; opacity: 0.3; width: 30px; height: 30px; background: #111; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; border: 1px solid #333; z-index: 10; }
 
-        /* GALERİ (SWIPE & SES) */
+        /* GALERİ (SWIPE) */
         #gallery-overlay { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; flex-direction: column; }
         .gallery-header { height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: rgba(0,0,0,0.95); position: absolute; top:0; width:100%; z-index: 10000; border-bottom:1px solid #222;}
-        .close-gallery { color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .close-gallery { color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 10001; }
         
         .slider-container { flex: 1; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; height: 100%; width: 100%; align-items: center; }
         .slider-container::-webkit-scrollbar { display: none; }
@@ -66,9 +66,28 @@
         .spinner { color: #D4AF37; font-size: 24px; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align: center; }
         .error-msg { color: #ff9999; font-size: 12px; text-align: center; margin-top: 100px; padding: 20px; background: rgba(50,0,0,0.5); border-radius: 10px; width: 80%; margin-left:auto; margin-right:auto; border:1px solid #550000; }
         
-        /* METİN MODALI */
+        /* METİN MODALI (FİXLENDİ) */
         #textModal { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; flex-direction: column; }
-        .text-body { padding: 100px 25px 50px 25px; overflow-y: auto; text-align: center; color: #ffffff; font-family: 'Playfair Display', serif; font-size: 18px; line-height: 1.7; height: 100%; position: relative; z-index: 10001; }
+        
+        /* Başlık kısmı en üstte ve tıklanabilir */
+        .text-modal-header { 
+            height: 60px; display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 20px; background: rgba(0,0,0,0.95); border-bottom: 1px solid #222;
+            position: absolute; top: 0; left: 0; width: 100%; z-index: 20000; /* Çok yüksek Z-Index */
+        }
+
+        .text-body { 
+            padding: 80px 25px 50px 25px; /* Header altından başla */
+            overflow-y: auto; 
+            text-align: center; 
+            color: #ffffff; 
+            font-family: 'Playfair Display', serif; 
+            font-size: 18px; 
+            line-height: 1.7; 
+            height: 100%; 
+            position: relative; 
+            z-index: 10000; /* Header'dan düşük */
+        }
     </style>
 </head>
 <body>
@@ -135,7 +154,7 @@
 </div>
 
 <div id="textModal">
-    <div class="gallery-header">
+    <div class="text-modal-header">
         <div class="close-gallery" onclick="document.getElementById('textModal').style.display='none'"><i class="fas fa-chevron-left"></i> KAPAT</div>
         <span style="color:#D4AF37; font-weight:bold; font-size:14px;">Anı Defteri</span>
     </div>
@@ -143,7 +162,6 @@
 </div>
 
 <script>
-    // ⚠️ SON API URL
     const API_URL = "https://script.google.com/macros/s/AKfycbyvtvYWLmkq8AqmCEhf_FP5fYLaliFpz_p-Jx4_miEM1vgCvHIM8qDS06A5kKP9F6W0ZA/exec"; 
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -191,35 +209,24 @@
         } catch(e) { alert("Şifre Yanlış!"); }
     }
 
-    // --- SESLİ MESAJ FİX (HAYALET OYNATICI) ---
     function openLink(type) {
         if(type === 'ses' && pageData.ses) {
             const overlay = document.getElementById('gallery-overlay');
             const slider = document.getElementById('slider-track');
             const titleEl = document.getElementById('galTitle');
-            
             titleEl.innerText = "Sesli Mesaj";
             slider.innerHTML = "";
             overlay.style.display = 'flex';
 
-            // Linkten ID'yi çek
             let fileId = "";
             const rawLink = pageData.ses;
             const match = rawLink.match(/[-\w]{25,}/);
             if (match) fileId = match[0];
 
             if(fileId) {
-                // Siyah ekranın içine Iframe player göm
                 const playerUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-                slider.innerHTML = `
-                    <div class="slide">
-                        <div class="video-wrapper" style="height:50%;">
-                            <iframe src="${playerUrl}" allow="autoplay"></iframe>
-                        </div>
-                    </div>`;
-            } else {
-                slider.innerHTML = '<div class="error-msg">Link Hatalı</div>';
-            }
+                slider.innerHTML = `<div class="slide"><div class="video-wrapper" style="height:50%;"><iframe src="${playerUrl}" allow="autoplay"></iframe></div></div>`;
+            } else { slider.innerHTML = '<div class="error-msg">Link Hatalı</div>'; }
         }
     }
 
@@ -235,7 +242,6 @@
         const overlay = document.getElementById('gallery-overlay');
         const slider = document.getElementById('slider-track');
         document.getElementById('galTitle').innerText = title;
-        
         slider.innerHTML = '<div class="spinner"><i class="fas fa-circle-notch fa-spin"></i><br><span style="font-size:10px;">Yükleniyor...</span></div>';
         overlay.style.display = 'flex';
 
@@ -244,7 +250,7 @@
         .then(data => {
             slider.innerHTML = "";
             if(data.status === "error") {
-                slider.innerHTML = `<div class="error-msg">⚠️ BAĞLANTI HATASI<br>${data.msg}<br>ID: ${data.triedId}</div>`;
+                slider.innerHTML = `<div class="error-msg">⚠️ BAĞLANTI HATASI<br>${data.msg}</div>`;
                 return;
             }
             if(!data.files || data.files.length === 0) {
@@ -255,16 +261,12 @@
             data.files.forEach(file => {
                 const slide = document.createElement('div');
                 slide.className = 'slide';
-                
                 if(file.type === 'image') {
                     const proxyUrl = "https://lh3.googleusercontent.com/d/" + file.id + "=s2000";
                     slide.innerHTML = `<img src="${proxyUrl}" loading="lazy">`;
                 } else if (file.type === 'video') {
                     const videoUrl = `https://drive.google.com/file/d/${file.id}/preview`;
-                    slide.innerHTML = `
-                        <div class="video-wrapper">
-                            <iframe src="${videoUrl}" allow="autoplay" allowfullscreen></iframe>
-                        </div>`;
+                    slide.innerHTML = `<div class="video-wrapper"><iframe src="${videoUrl}" allow="autoplay" allowfullscreen></iframe></div>`;
                 }
                 slider.appendChild(slide);
             });
@@ -292,7 +294,8 @@
         const encFolder = CryptoJS.AES.encrypt(combined, pass).toString();
         const encSes = CryptoJS.AES.encrypt(document.getElementById('inSes').value, pass).toString();
 
-        fetch(API_URL + `?action=save&id=${currentID}&title=${encodeURIComponent(encTitle)}¬=${encodeURIComponent(encNot)}&folder=${encodeURIComponent(encFolder)}&ses=${encodeURIComponent(encSes)}`)
+        // ⚠️ DÜZELTME: "&not=" parametresi doğru gönderiliyor
+        fetch(API_URL + `?action=save&id=${currentID}&title=${encodeURIComponent(encTitle)}&not=${encodeURIComponent(encNot)}&folder=${encodeURIComponent(encFolder)}&ses=${encodeURIComponent(encSes)}`)
         .then(res => res.json())
         .then(data => {
             if(data.status==="success") location.reload();
