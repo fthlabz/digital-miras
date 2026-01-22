@@ -62,16 +62,15 @@
         }
         .gallery-header {
             height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
-            background: rgba(0,0,0,0.8); position: absolute; top:0; width:100%; z-index: 10000;
+            background: rgba(0,0,0,0.9); position: absolute; top:0; width:100%; z-index: 10000;
         }
         .close-gallery { color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         
-        /* KAYDIRMA ALANI */
         .slider-container {
             flex: 1; display: flex; 
-            overflow-x: auto; /* Yatay kaydırma */
+            overflow-x: auto; 
             overflow-y: hidden;
-            scroll-snap-type: x mandatory; /* Mıknatıs gibi yapış */
+            scroll-snap-type: x mandatory; 
             -webkit-overflow-scrolling: touch;
             height: 100%; width: 100%;
             align-items: center;
@@ -79,17 +78,12 @@
         .slider-container::-webkit-scrollbar { display: none; }
 
         .slide {
-            flex: 0 0 100%; /* Tam ekran */
-            height: 100%;
-            scroll-snap-align: center; /* Ortala */
+            flex: 0 0 100%; height: 100%;
+            scroll-snap-align: center;
             display: flex; align-items: center; justify-content: center;
             position: relative;
         }
-        .slide img {
-            max-width: 100%; max-height: 100%; 
-            object-fit: contain;
-            pointer-events: none; /* Resim sürüklemeyi engelle, swipe çalışsın */
-        }
+        .slide img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .slide video { width: 100%; max-height: 80%; }
 
         .spinner { color: #D4AF37; font-size: 24px; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
@@ -135,9 +129,9 @@
 
         <div class="quick-row">
             <div class="quick-wrap" onclick="openTextModal()"><div class="quick-btn"><i class="fas fa-book"></i></div><span class="quick-label">Defter</span></div>
-            <div class="quick-wrap" onclick="openLink('ses')"><div class="quick-btn"><i class="fas fa-microphone-alt"></i></div><span class="quick-label">Sesli</span></div>
-            <div class="quick-wrap" onclick="openGallery('video')"><div class="quick-btn"><i class="fas fa-video"></i></div><span class="quick-label">Video</span></div>
-            <div class="quick-wrap" onclick="openGallery('photo')"><div class="quick-btn"><i class="fas fa-images"></i></div><span class="quick-label">Resim</span></div>
+            <div class="quick-wrap" onclick="openLink('ses')" id="storySes"><div class="quick-btn"><i class="fas fa-microphone-alt"></i></div><span class="quick-label">Sesli</span></div>
+            <div class="quick-wrap" onclick="openGallery('video')" id="storyVideo"><div class="quick-btn"><i class="fas fa-video"></i></div><span class="quick-label">Video</span></div>
+            <div class="quick-wrap" onclick="openGallery('photo')" id="storyPhoto"><div class="quick-btn"><i class="fas fa-images"></i></div><span class="quick-label">Resim</span></div>
         </div>
 
         <div style="text-align:left; color:#888; font-size:11px; margin-bottom:10px; letter-spacing:1px; text-transform:uppercase;">İçerik Listesi</div>
@@ -172,8 +166,8 @@
 </div>
 
 <script>
-    // ⚠️⚠️ YENİ URL GİRİLDİ ⚠️⚠️
-    const API_URL = "https://script.google.com/macros/s/AKfycbzBYFBBqG0EJ6oigStYL9McI6JU5JHK1jv8Ycq02lic_bjXrJ2LUSc3JF--6_Do9VnAHg/exec"; 
+    // ⚠️⚠️ YENİ URL ENTEGRE EDİLDİ ⚠️⚠️
+    const API_URL = "https://script.google.com/macros/s/AKfycbzetEjhErrGCorbH4Juc3GohnsqP-d7-9qZHkFbJstrDleT6Zq66CCUTDEV4m4kCmDHeg/exec"; 
 
     const urlParams = new URLSearchParams(window.location.search);
     const currentID = urlParams.get('id');
@@ -210,10 +204,10 @@
             document.getElementById('displayTitle').innerText = title;
             document.getElementById('textContent').innerText = not;
             
-            if(!ses) { document.getElementById('listSes').style.display='none'; }
-            if(!folders[0]) { document.getElementById('listVideo').style.display='none'; }
-            if(!folders[1]) { document.getElementById('listPhoto').style.display='none'; }
-            if(!folders[2]) { document.getElementById('listSound').style.display='none'; }
+            if(!ses) { document.getElementById('listSes').style.display='none'; document.getElementById('storySes').style.display='none'; }
+            if(!folders[0]) { document.getElementById('listVideo').style.display='none'; document.getElementById('storyVideo').style.display='none'; }
+            if(!folders[1]) { document.getElementById('listPhoto').style.display='none'; document.getElementById('storyPhoto').style.display='none'; }
+            if(!folders[2]) { document.getElementById('listSound').style.display='none'; document.getElementById('listSound').style.display='none'; }
 
             document.getElementById('password-screen').style.display = 'none';
             document.getElementById('view-panel').style.display = 'block';
@@ -237,13 +231,12 @@
         slider.innerHTML = '<div class="spinner"><i class="fas fa-circle-notch fa-spin"></i></div>';
         overlay.style.display = 'flex';
 
-        // Backend'den dosya listesini iste
         fetch(API_URL + "?action=getFiles&url=" + encodeURIComponent(link))
         .then(res => res.json())
         .then(data => {
             slider.innerHTML = "";
             if(data.status === "error" || !data.files || data.files.length === 0) {
-                slider.innerHTML = '<div class="error-msg">Resim bulunamadı.<br>Klasör "Herkes"e açık olmalı.</div>';
+                slider.innerHTML = '<div class="error-msg">Dosya bulunamadı.<br>Klasör "Herkes"e açık olmalı.</div>';
                 return;
             }
 
@@ -251,13 +244,12 @@
                 const slide = document.createElement('div');
                 slide.className = 'slide';
                 
-                // Google Drive'dan direkt proxy linki (Drive açmadan gösterir)
+                // Güvenli Google Proxy URL (Embed)
                 const proxyUrl = "https://lh3.googleusercontent.com/d/" + file.id + "=s2000";
                 
                 if(file.type === 'image') {
                     slide.innerHTML = `<img src="${proxyUrl}" loading="lazy">`;
                 } else if (file.type === 'video') {
-                    // Videoları native oynatıcıda açmak için basit bir player
                     slide.innerHTML = `<div style="text-align:center;"><i class="fas fa-play-circle" style="font-size:50px; color:#D4AF37;"></i><br><br><a href="${proxyUrl}" target="_blank" style="color:#fff; text-decoration:underline; font-size:12px;">Videoyu Oynat</a></div>`;
                 }
                 slider.appendChild(slide);
@@ -298,10 +290,23 @@
         });
     }
     
+    // --- DÜZENLEME HATASI FİX (VERİLERİ GERİ DOLDURMA) ---
     function enableEdit() {
-        if(confirm("Düzenle?")) {
+        if(confirm("Düzenlemek istiyor musunuz?")) {
             document.getElementById('view-panel').style.display='none';
             document.getElementById('setup-panel').style.display='block';
+            
+            // Verileri kutucuklara geri koyuyoruz
+            document.getElementById('inTitle').value = pageData.title;
+            document.getElementById('inNot').value = pageData.not;
+            document.getElementById('inSes').value = pageData.ses;
+            document.getElementById('inVideoLink').value = pageData.vLink;
+            document.getElementById('inPhotoLink').value = pageData.pLink;
+            document.getElementById('inSoundLink').value = pageData.sLink;
+            
+            // Şifreyi de hatırlatıyoruz
+            document.getElementById('inPass').value = pageData.pass;
+            document.getElementById('inPassConfirm').value = pageData.pass;
         }
     }
 </script>
