@@ -1026,14 +1026,6 @@
       card.appendChild(contactRow('fa-location-dot', 'Adres', pageData.address, ""));
       card.appendChild(contactRow('fa-map-location-dot', 'Konum', pageData.maps, pageData.maps ? pageData.maps : ""));
 
-      const actions = document.createElement('div');
-      actions.className = 'contact-actions';
-      actions.innerHTML = `
-        <button class="btn-ghost" onclick="openGallery('photo')">Ürünlerimiz</button>
-        <button class="btn-gold" style="margin-top:0;" onclick="orderOnWhatsApp()">WhatsApp Sipariş</button>
-      `;
-      card.appendChild(actions);
-
       wrap.appendChild(card);
 
       const legal = document.createElement('div');
