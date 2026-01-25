@@ -31,6 +31,9 @@
 
       --shadow-soft: 0 10px 28px rgba(0,0,0,.45);
       --glow-gold: 0 0 22px rgba(239,192,123,.35);
+
+      --wa: #25D366;
+      --wa2:#1DA851;
     }
 
     *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
@@ -281,27 +284,26 @@
       white-space: nowrap;
     }
 
+    /* Flash media (no crop) */
     .flash-media{
-  width:100%;
-  border-radius: var(--r-md);
-  overflow:hidden;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.25);
-  position:relative;
-  box-shadow: var(--shadow-soft);
-  margin-bottom: 12px;
+      width:100%;
+      border-radius: var(--r-md);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
+      position:relative;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 12px;
+      aspect-ratio: auto;
+    }
+    .flash-media img{
+      width:100%;
+      height:auto;
+      display:block;
+      object-fit: contain;
+      background: rgba(0,0,0,.25);
+    }
 
-  /* 🔥 resme göre boyutlanır */
-  aspect-ratio: auto;
-}
-
-.flash-media img{
-  width:100%;
-  height:auto;          /* 🔥 kırpma yok */
-  display:block;
-  object-fit: contain;  /* 🔥 ne gelirse gelsin kesmez */
-  background: rgba(0,0,0,.25);
-}
     .flash-media .placeholder{
       position:absolute; inset:0;
       display:flex; align-items:center; justify-content:center;
@@ -348,19 +350,6 @@
       gap: 10px;
       margin-top: 12px;
     }
-    .btn-ghost{
-      flex:1;
-      border-radius: 999px;
-      padding: 14px 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color: rgba(242,242,242,.85);
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      cursor:pointer;
-    }
-    .btn-ghost:active{ transform: scale(.99); }
 
     .footer{
       text-align:center;
@@ -562,48 +551,115 @@
       text-decoration: none;
       border-bottom: 1px dashed rgba(255,255,255,.18);
     }
-    .contact-actions{
-      display:flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .contact-actions button{ flex:1; }
 
     @media (max-width: 380px){
       .company-name{ font-size: 24px; }
       .dock-btn{ height: 48px; }
     }
+
     .btn-whatsapp{
-  width: 100%;
-  padding: 14px 16px; /* daha ince */
-  border-radius: 999px;
-  border: 1px solid rgba(37, 211, 102, 0.45);
-  background: linear-gradient(135deg, #25D366, #1DA851);
-  color: #0c0c0c;
-  font-weight: 800;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow:
-    0 0 18px rgba(37, 211, 102, 0.35),
-    inset 0 1px 0 rgba(255,255,255,0.25);
-}
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 211, 102, 0.45);
+      background: linear-gradient(135deg, var(--wa), var(--wa2));
+      color: #0c0c0c;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow:
+        0 0 18px rgba(37, 211, 102, 0.35),
+        inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+    .btn-whatsapp:active{ transform: scale(0.99); }
+    .btn-whatsapp::before{
+      content: "";
+      font-family: "Font Awesome 6 Brands";
+      margin-right: 10px;
+      font-size: 16px;
+    }
 
-.btn-whatsapp:active{
-  transform: scale(0.99);
-}
-
-.btn-whatsapp::before{
-  content: "";
-  font-family: "Font Awesome 6 Brands";
-  margin-right: 10px;
-  font-size: 16px;
-}
+    /* ===== First open popup ===== */
+    #firstPopup{
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.72);
+      z-index: 10050;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+    }
+    .pop-card{
+      width: 100%;
+      max-width: 520px;
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(12,12,12,.82);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.55);
+    }
+    .pop-title{
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: rgba(242,242,242,.9);
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      margin-bottom: 10px;
+    }
+    .pop-title i{ color: var(--gold); }
+    .pop-text{
+      color: rgba(242,242,242,.70);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .pop-actions{
+      display:flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btn-lite{
+      flex:1;
+      border-radius: 999px;
+      padding: 14px 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: rgba(242,242,242,.85);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor:pointer;
+    }
+    .btn-lite:active{ transform: scale(.99); }
   </style>
 </head>
 
 <body>
   <div class="bg-glow"></div>
+
+  <!-- First open popup -->
+  <div id="firstPopup">
+    <div class="pop-card">
+      <div class="pop-title"><i class="fas fa-bookmark"></i> Kayıt & Kısayol</div>
+      <div class="pop-text" id="popText">
+        Bu işletmeyi telefonuna kaydetmek ister misin?
+        Kaydedersen, işletme bilgileri rehberine eklenir ve bu sayfa cihazında hatırlanır.
+      </div>
+      <div class="pop-actions">
+        <button class="btn-lite" onclick="dismissFirstPopup()">Şimdi Değil</button>
+        <button class="btn-gold" style="margin-top:0;" onclick="saveBusinessToPhone()">Kaydet</button>
+      </div>
+      <div style="margin-top:10px; color: rgba(242,242,242,.40); font-size: 11px; line-height: 1.5;">
+        Not: Rehbere ekleme için telefonun indirilen “.vcf” dosyasını açıp “Kişi Ekle” demen gerekebilir.
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <div class="header">
@@ -623,6 +679,9 @@
         <div class="hero-title">Yönetici Kurulumu</div>
         <p style="font-size:12px; color: rgba(242,242,242,.55); margin:10px 0 0;">
           İzleyici şifresi yok. Düzenleme için yönetici şifresi gerekir. Şifreyi bir kere girince bu cihazda hatırlar.
+        </p>
+        <p id="adminHint" style="display:none; font-size:12px; color: rgba(239,192,123,.85); margin:10px 0 0;">
+          Bu cihaz yönetici olarak hatırlanıyor. Kaydetmek için şifreyi tekrar girmen gerekmez (boş bırakabilirsin).
         </p>
       </div>
 
@@ -686,8 +745,8 @@
       <textarea id="inNot" rows="4" placeholder="Örn: Tüm hakları saklıdır..."></textarea>
 
       <label style="color: var(--gold); margin-top: 18px;">YÖNETİCİ ŞİFRESİ</label>
-      <input type="password" id="inPass" placeholder="Yönetici şifresi">
-      <input type="password" id="inPassConfirm" placeholder="Şifre tekrar">
+      <input type="password" id="inPass" placeholder="Yönetici şifresi (hatırlıysa boş bırakabilirsin)">
+      <input type="password" id="inPassConfirm" placeholder="Şifre tekrar (hatırlıysa boş)">
 
       <button class="btn-gold" onclick="saveData()">KAYDET</button>
     </div>
@@ -724,7 +783,7 @@
             <i class="fas fa-bullhorn"></i>
           </div>
 
-          <div class="dock-btn daily" onclick="openDaily()" id="btnDaily" title="Günlük">
+          <div class="dock-btn daily" onclick="openDaily()" id="btnDaily" title="Ürün tanıtımı">
             <i class="fas fa-bolt"></i>
           </div>
         </div>
@@ -754,7 +813,7 @@
         </div>
 
         <div class="price-row">
-         <div class="price-box">
+          <div class="price-box">
             <div class="price-label">Eski Fiyat</div>
             <div class="price-val old" id="oldPriceText">—</div>
           </div>
@@ -765,12 +824,12 @@
         </div>
 
         <div class="flash-actions">
-         <button class="btn-whatsapp" onclick="orderOnWhatsApp()">WhatsApp’tan Sipariş</button>
+          <button class="btn-whatsapp" onclick="orderOnWhatsApp()">WhatsApp’tan Sipariş</button>
         </div>
       </div>
 
       <div class="admin-edit" onclick="enableEdit()"><i class="fas fa-pen"></i></div>
-      <div class="footer">POWERED BY FTHLABZ</div>
+      <div class="footer">POWERED BY DİJİTAL KATALOG</div>
     </div>
   </div>
 
@@ -836,6 +895,122 @@
     function encodeSafe(s){ return encodeURIComponent((s||"").trim()); }
     function decodeSafe(s){ try { return decodeURIComponent(s); } catch(e){ return s; } }
 
+    // ===== Admin auth remember per device =====
+    function isAdminRemembered(){
+      try{ return localStorage.getItem(storageKey("admin_ok")) === "1"; }
+      catch(e){ return false; }
+    }
+    function rememberAdmin(){
+      try{ localStorage.setItem(storageKey("admin_ok"), "1"); } catch(e){}
+    }
+
+    // ===== Business save remember per device (viewer) =====
+    function isBusinessSaved(){
+      try{ return localStorage.getItem(storageKey("biz_saved")) === "1"; }
+      catch(e){ return false; }
+    }
+    function markBusinessSaved(){
+      try{ localStorage.setItem(storageKey("biz_saved"), "1"); } catch(e){}
+    }
+
+    // Keep a small list on device (optional)
+    function addToSavedList(){
+      try{
+        const k = "saved_businesses_v1";
+        const raw = localStorage.getItem(k);
+        const arr = raw ? JSON.parse(raw) : [];
+        const url = window.location.origin + window.location.pathname + "?id=" + encodeURIComponent(currentID);
+        const item = { id: currentID, name: pageData.company || "Dijital Katalog", url, ts: Date.now() };
+        const filtered = arr.filter(x => x && x.id !== currentID);
+        filtered.unshift(item);
+        localStorage.setItem(k, JSON.stringify(filtered.slice(0, 50)));
+      }catch(e){}
+    }
+
+    function showFirstPopupIfNeeded(){
+      // Only show for VIEWER + if we have data
+      if(!pageData.company) return;
+      if(isBusinessSaved()) return;
+      const pop = document.getElementById("firstPopup");
+      if(pop) pop.style.display = "flex";
+      const txt = document.getElementById("popText");
+      if(txt){
+        txt.innerHTML = `“<b>${escapeHtml(pageData.company)}</b>” işletmesini telefonuna kaydetmek ister misin?<br><br>
+        Kaydedersen, işletme bilgileri rehberine eklenir ve bu sayfa cihazında hatırlanır.`;
+      }
+    }
+    function dismissFirstPopup(){
+      const pop = document.getElementById("firstPopup");
+      if(pop) pop.style.display = "none";
+    }
+
+    // vCard download (user imports to contacts)
+    function buildVCard(){
+      const name = (pageData.company || "İşletme").trim();
+      const phone = (pageData.phone || "").trim();
+      const whats = normalizeWhats(pageData.whats || "");
+      const insta = normalizeHandle(pageData.insta || "");
+      const addr  = (pageData.address || "").trim();
+      const maps  = (pageData.maps || "").trim();
+
+      const url = window.location.origin + window.location.pathname + "?id=" + encodeURIComponent(currentID);
+
+      // WhatsApp URL as "URL" field or NOTE
+      const waUrl = whats ? `https://wa.me/${whats}` : "";
+      const igUrl = insta ? `https://instagram.com/${insta}` : "";
+
+      // Minimal vCard 3.0
+      const lines = [];
+      lines.push("BEGIN:VCARD");
+      lines.push("VERSION:3.0");
+      lines.push(`FN:${escapeVcf(name)}`);
+      lines.push(`N:${escapeVcf(name)};;;;`);
+
+      if(phone) lines.push(`TEL;TYPE=CELL:${escapeVcf(phone)}`);
+      if(waUrl) lines.push(`URL;TYPE=WORK:${escapeVcf(waUrl)}`);
+      if(igUrl) lines.push(`URL;TYPE=HOME:${escapeVcf(igUrl)}`);
+      if(url)   lines.push(`URL:${escapeVcf(url)}`);
+
+      if(addr)  lines.push(`ADR;TYPE=WORK:;;${escapeVcf(addr)};;;;`);
+      if(maps)  lines.push(`NOTE:${escapeVcf("Konum: " + maps)}`);
+
+      lines.push("END:VCARD");
+      return lines.join("\n");
+    }
+
+    function escapeVcf(s){
+      return (s||"")
+        .replace(/\\/g, "\\\\")
+        .replace(/\n/g, "\\n")
+        .replace(/,/g, "\\,")
+        .replace(/;/g, "\\;");
+    }
+
+    function downloadText(filename, text){
+      const blob = new Blob([text], { type: "text/vcard;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 800);
+    }
+
+    function saveBusinessToPhone(){
+      // mark saved on device + list
+      markBusinessSaved();
+      addToSavedList();
+
+      // vCard download
+      const vcf = buildVCard();
+      const safeName = (pageData.company || "isletme").replace(/[^\w\s\-ığüşöçİĞÜŞÖÇ]/g, "").trim().replace(/\s+/g, "_");
+      downloadText(`${safeName || "isletme"}_Katalog.vcf`, vcf);
+
+      dismissFirstPopup();
+    }
+
     window.onload = function() {
       if (!currentID) { document.getElementById('loading').innerHTML = "ID Yok"; return; }
       document.getElementById('certId').innerText = currentID;
@@ -899,6 +1074,9 @@
 
           renderFlash();
           document.getElementById('view-panel').style.display = 'block';
+
+          // show popup after rendering view
+          setTimeout(showFirstPopupIfNeeded, 350);
         })
         .catch(() => alert("Bağlantı Hatası: URL'yi kontrol et."));
     };
@@ -910,7 +1088,6 @@
     }
 
     function renderFlash(){
-      const box = document.getElementById('flashBox');
       const img = document.getElementById('flashImg');
       const ph  = document.getElementById('flashPlaceholder');
       const oldT = document.getElementById('oldPriceText');
@@ -936,10 +1113,6 @@
         img.style.display = 'none';
         ph.style.display = 'flex';
       }
-
-      // if totally empty, keep box but show "kampanya yok"
-      // If you want to hide instead, uncomment:
-      // if(!pageData.flashImg && !pageData.flashOld && !pageData.flashNew) box.style.display='none';
     }
 
     // ===== Daily single file preview =====
@@ -947,7 +1120,7 @@
       if(!pageData.daily) return;
       const overlay = document.getElementById('gallery-overlay');
       const slider = document.getElementById('slider-track');
-      document.getElementById('galTitle').innerText = "Günlük";
+      document.getElementById('galTitle').innerText = "Ürün tanıtımı";
       slider.innerHTML = "";
       overlay.style.display = 'flex';
 
@@ -1098,15 +1271,7 @@
       window.open(url, "_blank");
     }
 
-    // ===== Admin auth remember per device =====
-    function isAdminRemembered(){
-      try{ return localStorage.getItem(storageKey("admin_ok")) === "1"; }
-      catch(e){ return false; }
-    }
-    function rememberAdmin(){
-      try{ localStorage.setItem(storageKey("admin_ok"), "1"); } catch(e){}
-    }
-
+    // ===== Admin edit =====
     function enableEdit() {
       if(isAdminRemembered()){
         openSetupPrefilled();
@@ -1137,6 +1302,12 @@
       document.getElementById('view-panel').style.display='none';
       document.getElementById('setup-panel').style.display='block';
 
+      // show hint if already remembered
+      if(isAdminRemembered() && pageData.adminHash){
+        const hint = document.getElementById("adminHint");
+        if(hint) hint.style.display = "block";
+      }
+
       document.getElementById('inTitle').value = pageData.company || "";
       document.getElementById('inSlogan').value = pageData.slogan || "";
 
@@ -1157,14 +1328,28 @@
 
       document.getElementById('inNot').value = pageData.legal || "";
 
+      // keep password boxes empty (unless first time)
       document.getElementById('inPass').value = "";
       document.getElementById('inPassConfirm').value = "";
     }
 
     function saveData() {
-      const pass = document.getElementById('inPass').value;
-      if (!pass) return alert("Yönetici şifresi boş olamaz.");
-      if (pass !== document.getElementById('inPassConfirm').value) return alert("Şifreler uyuşmuyor.");
+      const pass = (document.getElementById('inPass').value || "").trim();
+      const pass2 = (document.getElementById('inPassConfirm').value || "").trim();
+
+      // ✅ If admin already remembered and hash exists, allow saving with blank password
+      let adminHash = "";
+      const canSkipPass = isAdminRemembered() && (pageData.adminHash && pageData.adminHash.length > 10);
+
+      if(!pass){
+        if(!canSkipPass){
+          return alert("Yönetici şifresi boş olamaz.");
+        }
+        adminHash = pageData.adminHash; // reuse existing
+      } else {
+        if (pass !== pass2) return alert("Şifreler uyuşmuyor.");
+        adminHash = sha256hex(pass);
+      }
 
       const btn = document.querySelector('#setup-panel .btn-gold');
       btn.innerText = "KAYDEDİLİYOR...";
@@ -1189,7 +1374,6 @@
       const flashLabel = (document.getElementById('inFlashLabel').value || "").trim();
 
       const legal   = (document.getElementById('inNot').value || "").trim();
-      const adminHash = sha256hex(pass);
 
       const folder = [
         pLink, vLink, adminHash,
@@ -1209,6 +1393,7 @@
         .then(res => res.json())
         .then(data => {
           if (data.status === "success") {
+            // ✅ remember admin on this device after successful save (even if pass skipped)
             rememberAdmin();
             location.reload();
           } else {
@@ -1226,4 +1411,3 @@
   </script>
 </body>
 </html>
-
