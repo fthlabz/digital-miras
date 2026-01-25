@@ -31,9 +31,6 @@
 
       --shadow-soft: 0 10px 28px rgba(0,0,0,.45);
       --glow-gold: 0 0 22px rgba(239,192,123,.35);
-
-      --wa: #25D366;
-      --wa2:#1DA851;
     }
 
     *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
@@ -182,6 +179,43 @@
     }
     .btn-gold:disabled{ opacity:.7; cursor:not-allowed; }
 
+    .btn-whatsapp{
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 211, 102, 0.45);
+      background: linear-gradient(135deg, #25D366, #1DA851);
+      color: #0c0c0c;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow:
+        0 0 18px rgba(37, 211, 102, 0.35),
+        inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+    .btn-whatsapp:active{ transform: scale(0.99); }
+    .btn-whatsapp::before{
+      content: "";
+      font-family: "Font Awesome 6 Brands";
+      margin-right: 10px;
+      font-size: 16px;
+    }
+
+    .btn-ghost{
+      width:100%;
+      border-radius: 999px;
+      padding: 14px 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: rgba(242,242,242,.85);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor:pointer;
+    }
+    .btn-ghost:active{ transform: scale(.99); }
+
     .certificate{
       padding: 16px;
       border-radius: var(--r-lg);
@@ -284,7 +318,7 @@
       white-space: nowrap;
     }
 
-    /* Flash media (no crop) */
+    /* ✅ Anlık kampanya görseli kesmesin: resme göre boyutlansın */
     .flash-media{
       width:100%;
       border-radius: var(--r-md);
@@ -377,6 +411,7 @@
     .admin-edit i{ font-size: 14px; }
     .admin-edit:active{ transform: scale(.98); }
 
+    /* Overlay (gallery) */
     #gallery-overlay{
       position:fixed; inset:0;
       background:#000;
@@ -472,14 +507,15 @@
       border: 1px solid rgba(166,68,93,.35);
     }
 
-    #textModal{
+    /* === CARD MODAL (Contact Button) === */
+    #cardModal{
       position:fixed; inset:0;
-      background:#000;
-      z-index:9999;
+      background: rgba(0,0,0,.92);
+      z-index: 10000;
       display:none;
       flex-direction:column;
     }
-    .text-modal-header{
+    .card-header{
       height: 64px;
       padding: 0 18px;
       display:flex;
@@ -491,47 +527,53 @@
       border-bottom: 1px solid rgba(255,255,255,.08);
       flex-shrink:0;
     }
-    .text-body{
+    .card-title{
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 12px;
+    }
+    .card-body{
       flex:1;
       overflow-y:auto;
-      padding: 22px;
-      color: var(--txt-main) !important;
-      font-family: Inter, sans-serif;
-      font-size: 15px;
-      line-height: 1.65;
+      padding: 18px;
       -webkit-overflow-scrolling: touch;
-      white-space: pre-wrap;
     }
-
-    .contact-card{
-      padding: 16px;
+    .card-box{
       border-radius: var(--r-lg);
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
       margin-bottom: 14px;
     }
-    .contact-title{
+    .card-headline{
       font-family: "Space Grotesk", sans-serif;
       font-weight: 900;
-      letter-spacing: .10em;
+      letter-spacing: .06em;
       text-transform: uppercase;
       font-size: 12px;
-      color: rgba(242,242,242,.85);
+      color: rgba(242,242,242,.88);
       margin-bottom: 10px;
       display:flex;
-      gap: 10px;
       align-items:center;
+      gap: 10px;
     }
-    .contact-title i{ color: var(--gold); }
-    .contact-item{
+    .mini{
+      color: rgba(242,242,242,.60);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .step{
       display:flex;
       gap: 12px;
-      align-items:flex-start;
       padding: 10px 0;
       border-top: 1px solid rgba(255,255,255,.06);
     }
-    .contact-item:first-of-type{ border-top:none; }
-    .contact-ico{
+    .step:first-of-type{ border-top:none; }
+    .step-ico{
       width: 28px; height: 28px;
       display:flex; align-items:center; justify-content:center;
       border-radius: 10px;
@@ -539,127 +581,27 @@
       border: 1px solid rgba(239,192,123,.20);
       flex-shrink:0;
     }
-    .contact-ico i{ color: var(--gold); font-size: 14px; }
-    .contact-val{
+    .step-ico i{ color: var(--gold); font-size: 14px; }
+    .step-text{
       color: rgba(242,242,242,.78);
       font-size: 14px;
       line-height: 1.45;
-      word-break: break-word;
     }
-    .contact-val a{
-      color: rgba(242,242,242,.88);
-      text-decoration: none;
+    .hl{
+      color: rgba(242,242,242,.92);
       border-bottom: 1px dashed rgba(255,255,255,.18);
+      text-decoration:none;
     }
 
     @media (max-width: 380px){
       .company-name{ font-size: 24px; }
       .dock-btn{ height: 48px; }
     }
-
-    .btn-whatsapp{
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(37, 211, 102, 0.45);
-      background: linear-gradient(135deg, var(--wa), var(--wa2));
-      color: #0c0c0c;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow:
-        0 0 18px rgba(37, 211, 102, 0.35),
-        inset 0 1px 0 rgba(255,255,255,0.25);
-    }
-    .btn-whatsapp:active{ transform: scale(0.99); }
-    .btn-whatsapp::before{
-      content: "";
-      font-family: "Font Awesome 6 Brands";
-      margin-right: 10px;
-      font-size: 16px;
-    }
-
-    /* ===== First open popup ===== */
-    #firstPopup{
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.72);
-      z-index: 10050;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 18px;
-    }
-    .pop-card{
-      width: 100%;
-      max-width: 520px;
-      border-radius: 18px;
-      padding: 16px;
-      background: rgba(12,12,12,.82);
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      box-shadow: 0 14px 40px rgba(0,0,0,.55);
-    }
-    .pop-title{
-      font-family: "Space Grotesk", sans-serif;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: 12px;
-      color: rgba(242,242,242,.9);
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      margin-bottom: 10px;
-    }
-    .pop-title i{ color: var(--gold); }
-    .pop-text{
-      color: rgba(242,242,242,.70);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-    .pop-actions{
-      display:flex;
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .btn-lite{
-      flex:1;
-      border-radius: 999px;
-      padding: 14px 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color: rgba(242,242,242,.85);
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      cursor:pointer;
-    }
-    .btn-lite:active{ transform: scale(.99); }
   </style>
 </head>
 
 <body>
   <div class="bg-glow"></div>
-
-  <!-- First open popup -->
-  <div id="firstPopup">
-    <div class="pop-card">
-      <div class="pop-title"><i class="fas fa-bookmark"></i> Kayıt & Kısayol</div>
-      <div class="pop-text" id="popText">
-        Bu işletmeyi telefonuna kaydetmek ister misin?
-        Kaydedersen, işletme bilgileri rehberine eklenir ve bu sayfa cihazında hatırlanır.
-      </div>
-      <div class="pop-actions">
-        <button class="btn-lite" onclick="dismissFirstPopup()">Şimdi Değil</button>
-        <button class="btn-gold" style="margin-top:0;" onclick="saveBusinessToPhone()">Kaydet</button>
-      </div>
-      <div style="margin-top:10px; color: rgba(242,242,242,.40); font-size: 11px; line-height: 1.5;">
-        Not: Rehbere ekleme için telefonun indirilen “.vcf” dosyasını açıp “Kişi Ekle” demen gerekebilir.
-      </div>
-    </div>
-  </div>
 
   <div class="container">
     <div class="header">
@@ -679,9 +621,8 @@
         <div class="hero-title">Yönetici Kurulumu</div>
         <p style="font-size:12px; color: rgba(242,242,242,.55); margin:10px 0 0;">
           İzleyici şifresi yok. Düzenleme için yönetici şifresi gerekir. Şifreyi bir kere girince bu cihazda hatırlar.
-        </p>
-        <p id="adminHint" style="display:none; font-size:12px; color: rgba(239,192,123,.85); margin:10px 0 0;">
-          Bu cihaz yönetici olarak hatırlanıyor. Kaydetmek için şifreyi tekrar girmen gerekmez (boş bırakabilirsin).
+          <br><br>
+          Not: Daha sonra düzenlerken şifreyi değiştirmek istemezsen, şifre alanını boş bırakıp Kaydet diyebilirsin.
         </p>
       </div>
 
@@ -698,17 +639,26 @@
       <label>Telefon</label>
       <input type="text" id="inPhone" placeholder="Örn: +90 5xx xxx xx xx">
 
-      <label>WhatsApp Numarası (Ülke kodu ile)</label>
+      <label>E-posta (Opsiyonel)</label>
+      <input type="text" id="inEmail" placeholder="Örn: info@site.com">
+
+      <label>WhatsApp Numarası (Opsiyonel — ülke kodu ile)</label>
       <input type="text" id="inWhats" placeholder="Örn: 905xxxxxxxxx">
 
-      <label>Instagram</label>
+      <label>Instagram (Opsiyonel)</label>
       <input type="text" id="inInsta" placeholder="Örn: @hesap">
 
-      <label>Adres</label>
+      <label>Adres (Opsiyonel)</label>
       <input type="text" id="inAddress" placeholder="Örn: Kadıköy, İstanbul">
 
-      <label>Konum Linki (Google Maps)</label>
+      <label>Konum Linki (Google Maps — Opsiyonel)</label>
       <input type="text" id="inMaps" placeholder="Maps linki">
+
+      <label>Google Yorum Linki (Opsiyonel)</label>
+      <input type="text" id="inReview" placeholder="Google yorum linki">
+
+      <label>Çalışma Saatleri (Opsiyonel)</label>
+      <input type="text" id="inHours" placeholder="Örn: Hafta içi 09:00–19:00">
 
       <label style="color: var(--gold); margin-top: 18px; border-top:1px dashed rgba(255,255,255,.18); padding-top:12px;">
         4) MEDYA
@@ -720,7 +670,7 @@
       <label>Videolu Reklamlar (Videolar Klasör Linki)</label>
       <input type="text" id="inVideoLink" placeholder="Drive klasör linki">
 
-      <label>Ürün tanıtımı (Tek Drive Dosyası — video/ses fark etmez)</label>
+      <label>Ürün tanıtımı (Tek Drive Dosyası)</label>
       <input type="text" id="inDaily" placeholder="Drive dosya linki">
 
       <label style="color: var(--gold); margin-top: 18px; border-top:1px dashed rgba(255,255,255,.18); padding-top:12px;">
@@ -745,8 +695,8 @@
       <textarea id="inNot" rows="4" placeholder="Örn: Tüm hakları saklıdır..."></textarea>
 
       <label style="color: var(--gold); margin-top: 18px;">YÖNETİCİ ŞİFRESİ</label>
-      <input type="password" id="inPass" placeholder="Yönetici şifresi (hatırlıysa boş bırakabilirsin)">
-      <input type="password" id="inPassConfirm" placeholder="Şifre tekrar (hatırlıysa boş)">
+      <input type="password" id="inPass" placeholder="Yönetici şifresi (ilk kurulumda zorunlu)">
+      <input type="password" id="inPassConfirm" placeholder="Şifre tekrar">
 
       <button class="btn-gold" onclick="saveData()">KAYDET</button>
     </div>
@@ -771,8 +721,9 @@
 
       <div class="dock">
         <div class="dock-inner">
-          <div class="dock-btn" onclick="openContactModal()" title="İletişim Bilgileri">
-            <i class="fas fa-id-card"></i>
+          <!-- İLETİŞİM: artık kart/rehbere kaydet + ana ekrana ekle -->
+          <div class="dock-btn" onclick="openCardModal()" title="Kart / Rehbere Kaydet">
+            <i class="fas fa-address-card"></i>
           </div>
 
           <div class="dock-btn" onclick="openGallery('photo')" id="btnProducts" title="Ürünlerimiz">
@@ -789,7 +740,7 @@
         </div>
 
         <div class="dock-labels">
-          <span>İletişim</span>
+          <span>Kart</span>
           <span>Ürünler</span>
           <span>Reklam</span>
           <span>Ürün tanıtımı</span>
@@ -829,10 +780,11 @@
       </div>
 
       <div class="admin-edit" onclick="enableEdit()"><i class="fas fa-pen"></i></div>
-      <div class="footer">POWERED BY DİJİTAL KATALOG</div>
+      <div class="footer">POWERED BY FTHLABZ</div>
     </div>
   </div>
 
+  <!-- GALLERY OVERLAY -->
   <div id="gallery-overlay">
     <div class="gallery-header">
       <div class="close-gallery" onclick="closeGallery()"><i class="fas fa-chevron-left"></i> Geri</div>
@@ -841,16 +793,50 @@
     <div class="slider-container" id="slider-track"></div>
   </div>
 
-  <div id="textModal">
-    <div class="text-modal-header">
-      <div class="close-gallery" onclick="document.getElementById('textModal').style.display='none'">
-        <i class="fas fa-chevron-left"></i> Kapat
-      </div>
-      <span style="color: var(--gold); font-weight:900; font-size:12px; letter-spacing:.12em; text-transform:uppercase;">
-        İletişim Bilgileri
-      </span>
+  <!-- CARD MODAL -->
+  <div id="cardModal">
+    <div class="card-header">
+      <div class="close-gallery" onclick="closeCardModal()"><i class="fas fa-chevron-left"></i> Kapat</div>
+      <div class="card-title">KART / REHBER</div>
     </div>
-    <div class="text-body" id="textContent"></div>
+    <div class="card-body">
+      <div class="card-box">
+        <div class="card-headline"><i class="fas fa-user-plus"></i> Rehbere Kaydet</div>
+        <div class="mini">
+          Tek tuşla işletme kartını oluşturur. Açılan ekranda “Kişilere Ekle / Yeni Kişi Oluştur” seçerek kaydedebilirsin.
+        </div>
+        <div style="margin-top:12px;">
+          <button class="btn-gold" style="margin-top:0;" onclick="saveToContacts()">Rehbere Kaydet</button>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div class="card-headline"><i class="fas fa-house"></i> Ana Ekrana Kısayol</div>
+        <div class="mini" id="a2hsText">Cihazına göre yönerge burada görünecek.</div>
+
+        <div style="margin-top:12px;">
+          <button class="btn-ghost" onclick="showA2HSHelp()">Ana Ekrana Ekle Yönergesi</button>
+        </div>
+
+        <div id="a2hsSteps" style="margin-top:12px; display:none;">
+          <!-- dynamic -->
+        </div>
+      </div>
+
+      <div class="card-box" id="cardQuickLinks" style="display:none;">
+        <div class="card-headline"><i class="fas fa-link"></i> Hızlı Erişim</div>
+        <div class="mini">
+          Bazı cihazlarda aşağıdaki linkler doğrudan işini hızlandırır.
+        </div>
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="hl" id="quickTel" href="#" style="display:none;">Telefonla Ara</a>
+          <a class="hl" id="quickMap" href="#" target="_blank" rel="noopener" style="display:none;">Konum</a>
+          <a class="hl" id="quickInsta" href="#" target="_blank" rel="noopener" style="display:none;">Instagram</a>
+          <a class="hl" id="quickReview" href="#" target="_blank" rel="noopener" style="display:none;">Yorumlar</a>
+          <a class="hl" id="quickWeb" href="#" target="_blank" rel="noopener" style="display:none;">Site/Katalog</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -860,10 +846,10 @@
     const urlParams = new URLSearchParams(window.location.search);
     const currentID = urlParams.get('id');
 
-    // Data model (NO viewer password):
+    // Data model:
     // title: company
     // not: legal
-    // ses: daily single file link (Drive preview)
+    // ses: daily single file link
     // folder (packed):
     // 0 pLink
     // 1 vLink
@@ -878,9 +864,12 @@
     // 10 flashOld
     // 11 flashNew
     // 12 flashLabel
+    // 13 email
+    // 14 review
+    // 15 hours
     let pageData = {
       company: "", slogan: "",
-      phone: "", whats: "", insta: "", address: "", maps: "",
+      phone: "", email: "", whats: "", insta: "", address: "", maps: "", review: "", hours: "",
       legal: "",
       pLink: "", vLink: "",
       daily: "",
@@ -895,120 +884,10 @@
     function encodeSafe(s){ return encodeURIComponent((s||"").trim()); }
     function decodeSafe(s){ try { return decodeURIComponent(s); } catch(e){ return s; } }
 
-    // ===== Admin auth remember per device =====
-    function isAdminRemembered(){
-      try{ return localStorage.getItem(storageKey("admin_ok")) === "1"; }
-      catch(e){ return false; }
-    }
-    function rememberAdmin(){
-      try{ localStorage.setItem(storageKey("admin_ok"), "1"); } catch(e){}
-    }
-
-    // ===== Business save remember per device (viewer) =====
-    function isBusinessSaved(){
-      try{ return localStorage.getItem(storageKey("biz_saved")) === "1"; }
-      catch(e){ return false; }
-    }
-    function markBusinessSaved(){
-      try{ localStorage.setItem(storageKey("biz_saved"), "1"); } catch(e){}
-    }
-
-    // Keep a small list on device (optional)
-    function addToSavedList(){
-      try{
-        const k = "saved_businesses_v1";
-        const raw = localStorage.getItem(k);
-        const arr = raw ? JSON.parse(raw) : [];
-        const url = window.location.origin + window.location.pathname + "?id=" + encodeURIComponent(currentID);
-        const item = { id: currentID, name: pageData.company || "Dijital Katalog", url, ts: Date.now() };
-        const filtered = arr.filter(x => x && x.id !== currentID);
-        filtered.unshift(item);
-        localStorage.setItem(k, JSON.stringify(filtered.slice(0, 50)));
-      }catch(e){}
-    }
-
-    function showFirstPopupIfNeeded(){
-      // Only show for VIEWER + if we have data
-      if(!pageData.company) return;
-      if(isBusinessSaved()) return;
-      const pop = document.getElementById("firstPopup");
-      if(pop) pop.style.display = "flex";
-      const txt = document.getElementById("popText");
-      if(txt){
-        txt.innerHTML = `“<b>${escapeHtml(pageData.company)}</b>” işletmesini telefonuna kaydetmek ister misin?<br><br>
-        Kaydedersen, işletme bilgileri rehberine eklenir ve bu sayfa cihazında hatırlanır.`;
-      }
-    }
-    function dismissFirstPopup(){
-      const pop = document.getElementById("firstPopup");
-      if(pop) pop.style.display = "none";
-    }
-
-    // vCard download (user imports to contacts)
-    function buildVCard(){
-      const name = (pageData.company || "İşletme").trim();
-      const phone = (pageData.phone || "").trim();
-      const whats = normalizeWhats(pageData.whats || "");
-      const insta = normalizeHandle(pageData.insta || "");
-      const addr  = (pageData.address || "").trim();
-      const maps  = (pageData.maps || "").trim();
-
-      const url = window.location.origin + window.location.pathname + "?id=" + encodeURIComponent(currentID);
-
-      // WhatsApp URL as "URL" field or NOTE
-      const waUrl = whats ? `https://wa.me/${whats}` : "";
-      const igUrl = insta ? `https://instagram.com/${insta}` : "";
-
-      // Minimal vCard 3.0
-      const lines = [];
-      lines.push("BEGIN:VCARD");
-      lines.push("VERSION:3.0");
-      lines.push(`FN:${escapeVcf(name)}`);
-      lines.push(`N:${escapeVcf(name)};;;;`);
-
-      if(phone) lines.push(`TEL;TYPE=CELL:${escapeVcf(phone)}`);
-      if(waUrl) lines.push(`URL;TYPE=WORK:${escapeVcf(waUrl)}`);
-      if(igUrl) lines.push(`URL;TYPE=HOME:${escapeVcf(igUrl)}`);
-      if(url)   lines.push(`URL:${escapeVcf(url)}`);
-
-      if(addr)  lines.push(`ADR;TYPE=WORK:;;${escapeVcf(addr)};;;;`);
-      if(maps)  lines.push(`NOTE:${escapeVcf("Konum: " + maps)}`);
-
-      lines.push("END:VCARD");
-      return lines.join("\n");
-    }
-
-    function escapeVcf(s){
-      return (s||"")
-        .replace(/\\/g, "\\\\")
-        .replace(/\n/g, "\\n")
-        .replace(/,/g, "\\,")
-        .replace(/;/g, "\\;");
-    }
-
-    function downloadText(filename, text){
-      const blob = new Blob([text], { type: "text/vcard;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 800);
-    }
-
-    function saveBusinessToPhone(){
-      // mark saved on device + list
-      markBusinessSaved();
-      addToSavedList();
-
-      // vCard download
-      const vcf = buildVCard();
-      const safeName = (pageData.company || "isletme").replace(/[^\w\s\-ığüşöçİĞÜŞÖÇ]/g, "").trim().replace(/\s+/g, "_");
-      downloadText(`${safeName || "isletme"}_Katalog.vcf`, vcf);
-
-      dismissFirstPopup();
+    function escapeHtml(str){
+      return (str||"").replace(/[&<>"']/g, m => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[m]));
     }
 
     window.onload = function() {
@@ -1037,8 +916,6 @@
             document.getElementById('btnAds').style.display='none';
             document.getElementById('btnDaily').style.display='none';
             document.getElementById('flashBox').style.display='none';
-            document.getElementById('textContent').innerText =
-              "Bu sayfa eski sürümde şifreli kaydedilmiş.\n\nİzleyici şifresi kaldırıldığı için içerik görüntülenemez.\n\nYönetici: Sağ alttaki kalem ikonuna bas → şifre ile düzenle → Kaydet.";
             return;
           }
 
@@ -1065,6 +942,10 @@
           pageData.flashNew   = decodeSafe(parts[11] || "");
           pageData.flashLabel = decodeSafe(parts[12] || "");
 
+          pageData.email  = decodeSafe(parts[13] || "");
+          pageData.review = decodeSafe(parts[14] || "");
+          pageData.hours  = decodeSafe(parts[15] || "");
+
           document.getElementById('companyName').innerText = pageData.company || "Dijital Katalog";
           document.getElementById('companySlogan').innerText = pageData.slogan || "";
 
@@ -1074,14 +955,11 @@
 
           renderFlash();
           document.getElementById('view-panel').style.display = 'block';
-
-          // show popup after rendering view
-          setTimeout(showFirstPopupIfNeeded, 350);
         })
         .catch(() => alert("Bağlantı Hatası: URL'yi kontrol et."));
     };
 
-    // ===== Flash render (viewer cannot edit) =====
+    // ===== Flash render =====
     function getDriveId(link){
       const m = (link||"").match(/[-\w]{25,}/);
       return m ? m[0] : "";
@@ -1094,15 +972,12 @@
       const newT = document.getElementById('newPriceText');
       const title = document.getElementById('flashTitle');
 
-      // title
       const label = (pageData.flashLabel || "FLAŞ FIRSAT").trim();
       title.innerHTML = `<i class="fas fa-bolt"></i> ${escapeHtml(label).toUpperCase()}`;
 
-      // prices
       oldT.innerText = pageData.flashOld ? pageData.flashOld : "—";
       newT.innerText = pageData.flashNew ? pageData.flashNew : "—";
 
-      // image
       if(pageData.flashImg){
         const id = getDriveId(pageData.flashImg);
         const src = id ? (`https://lh3.googleusercontent.com/d/${id}=s2000`) : pageData.flashImg;
@@ -1180,82 +1055,15 @@
       document.getElementById('slider-track').innerHTML = "";
     }
 
-    // ===== Contact modal =====
-    function openContactModal(){
-      renderContactModal();
-      document.getElementById('textModal').style.display = 'flex';
-    }
-
-    function renderContactModal(){
-      const wrap = document.createElement('div');
-
-      const card = document.createElement('div');
-      card.className = 'contact-card';
-
-      const t = document.createElement('div');
-      t.className = 'contact-title';
-      t.innerHTML = `<i class="fas fa-address-card"></i> Şirket İletişimi`;
-      card.appendChild(t);
-
-      card.appendChild(contactRow('fa-phone', 'Telefon', pageData.phone, pageData.phone ? `tel:${normalizeTel(pageData.phone)}` : ""));
-      card.appendChild(contactRow('fa-whatsapp', 'WhatsApp', pageData.whats, pageData.whats ? `https://wa.me/${normalizeWhats(pageData.whats)}` : ""));
-      card.appendChild(contactRow('fa-instagram', 'Instagram', pageData.insta, pageData.insta ? `https://instagram.com/${normalizeHandle(pageData.insta)}` : ""));
-      card.appendChild(contactRow('fa-location-dot', 'Adres', pageData.address, ""));
-      card.appendChild(contactRow('fa-map-location-dot', 'Konum', pageData.maps, pageData.maps ? pageData.maps : ""));
-
-      wrap.appendChild(card);
-
-      const legal = document.createElement('div');
-      legal.className = 'contact-card';
-      legal.innerHTML = `
-        <div class="contact-title"><i class="fas fa-scale-balanced"></i> Yasal Bilgilendirme</div>
-        <div style="color: rgba(242,242,242,.70); font-size: 14px; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(pageData.legal || "—")}</div>
-      `;
-      wrap.appendChild(legal);
-
-      const textContent = document.getElementById('textContent');
-      textContent.innerHTML = "";
-      textContent.appendChild(wrap);
-    }
-
-    function contactRow(icon, label, value, link){
-      const row = document.createElement('div');
-      row.className = 'contact-item';
-      const safeVal = value ? escapeHtml(value) : "—";
-
-      let valHtml = safeVal;
-      if(value && link){
-        valHtml = `<a href="${link}" target="_blank" rel="noopener">${safeVal}</a>`;
-      }
-
-      // brand vs solid
-      const isBrand = (icon.includes('whatsapp') || icon.includes('instagram'));
-      const icoHtml = isBrand ? `<i class="fa-brands ${icon}"></i>` : `<i class="fas ${icon}"></i>`;
-
-      row.innerHTML = `
-        <div class="contact-ico">${icoHtml}</div>
-        <div class="contact-val">
-          <div style="color: rgba(242,242,242,.45); font-size: 12px; margin-bottom:4px; letter-spacing:.08em; text-transform:uppercase;">${label}</div>
-          ${valHtml}
-        </div>
-      `;
-      return row;
-    }
-
+    // ===== WhatsApp Order =====
     function normalizeHandle(h){ return (h||"").trim().replace(/^@/,'').replace(/\s+/g,''); }
     function normalizeWhats(w){ return (w||"").replace(/[^\d]/g,'').replace(/^0/,'90'); }
     function normalizeTel(t){ return (t||"").replace(/\s+/g,''); }
-    function escapeHtml(str){
-      return (str||"").replace(/[&<>"']/g, m => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-      }[m]));
-    }
 
-    // ===== WhatsApp Order (no customer note) =====
     function orderOnWhatsApp(){
-      const num = normalizeWhats(pageData.whats);
+      const num = normalizeWhats(pageData.whats || pageData.phone);
       if(!num){
-        alert("WhatsApp numarası eklenmemiş. Yönetici panelinden ekleyin.");
+        alert("WhatsApp/Telefon numarası eklenmemiş. Yönetici panelinden ekleyin.");
         return;
       }
 
@@ -1271,7 +1079,15 @@
       window.open(url, "_blank");
     }
 
-    // ===== Admin edit =====
+    // ===== Admin auth remember per device =====
+    function isAdminRemembered(){
+      try{ return localStorage.getItem(storageKey("admin_ok")) === "1"; }
+      catch(e){ return false; }
+    }
+    function rememberAdmin(){
+      try{ localStorage.setItem(storageKey("admin_ok"), "1"); } catch(e){}
+    }
+
     function enableEdit() {
       if(isAdminRemembered()){
         openSetupPrefilled();
@@ -1302,20 +1118,17 @@
       document.getElementById('view-panel').style.display='none';
       document.getElementById('setup-panel').style.display='block';
 
-      // show hint if already remembered
-      if(isAdminRemembered() && pageData.adminHash){
-        const hint = document.getElementById("adminHint");
-        if(hint) hint.style.display = "block";
-      }
-
       document.getElementById('inTitle').value = pageData.company || "";
       document.getElementById('inSlogan').value = pageData.slogan || "";
 
       document.getElementById('inPhone').value = pageData.phone || "";
+      document.getElementById('inEmail').value = pageData.email || "";
       document.getElementById('inWhats').value = pageData.whats || "";
       document.getElementById('inInsta').value = pageData.insta || "";
       document.getElementById('inAddress').value = pageData.address || "";
       document.getElementById('inMaps').value = pageData.maps || "";
+      document.getElementById('inReview').value = pageData.review || "";
+      document.getElementById('inHours').value = pageData.hours || "";
 
       document.getElementById('inPhotoLink').value = pageData.pLink || "";
       document.getElementById('inVideoLink').value = pageData.vLink || "";
@@ -1328,41 +1141,48 @@
 
       document.getElementById('inNot').value = pageData.legal || "";
 
-      // keep password boxes empty (unless first time)
+      // Şifreyi otomatik doldurma yok:
       document.getElementById('inPass').value = "";
       document.getElementById('inPassConfirm').value = "";
     }
 
     function saveData() {
-      const pass = (document.getElementById('inPass').value || "").trim();
-      const pass2 = (document.getElementById('inPassConfirm').value || "").trim();
+      const company = (document.getElementById('inTitle').value || "").trim();
+      if(!company) return alert("Şirket adı boş olamaz.");
 
-      // ✅ If admin already remembered and hash exists, allow saving with blank password
-      let adminHash = "";
-      const canSkipPass = isAdminRemembered() && (pageData.adminHash && pageData.adminHash.length > 10);
+      // İlk kurulum mu? (adminHash yoksa ilk kurulum say)
+      const firstSetup = !pageData.adminHash;
 
-      if(!pass){
-        if(!canSkipPass){
-          return alert("Yönetici şifresi boş olamaz.");
-        }
-        adminHash = pageData.adminHash; // reuse existing
+      const pass = (document.getElementById('inPass').value || "");
+      const pass2 = (document.getElementById('inPassConfirm').value || "");
+
+      // ✅ İlk kurulumda şifre zorunlu
+      if(firstSetup){
+        if(!pass) return alert("İlk kurulumda yönetici şifresi boş olamaz.");
+        if(pass !== pass2) return alert("Şifreler uyuşmuyor.");
       } else {
-        if (pass !== pass2) return alert("Şifreler uyuşmuyor.");
-        adminHash = sha256hex(pass);
+        // ✅ Sonraki düzenlemelerde:
+        // - Şifre girilmediyse: adminHash aynen kalsın
+        // - Şifre girildiyse: değiştir (doğrula)
+        if(pass){
+          if(pass !== pass2) return alert("Şifreler uyuşmuyor.");
+        }
       }
 
       const btn = document.querySelector('#setup-panel .btn-gold');
       btn.innerText = "KAYDEDİLİYOR...";
       btn.disabled = true;
 
-      const company = (document.getElementById('inTitle').value || "").trim();
       const slogan  = (document.getElementById('inSlogan').value || "").trim();
 
       const phone   = (document.getElementById('inPhone').value || "").trim();
+      const email   = (document.getElementById('inEmail').value || "").trim();
       const whats   = (document.getElementById('inWhats').value || "").trim();
       const insta   = (document.getElementById('inInsta').value || "").trim();
       const address = (document.getElementById('inAddress').value || "").trim();
       const maps    = (document.getElementById('inMaps').value || "").trim();
+      const review  = (document.getElementById('inReview').value || "").trim();
+      const hours   = (document.getElementById('inHours').value || "").trim();
 
       const pLink   = (document.getElementById('inPhotoLink').value || "").trim();
       const vLink   = (document.getElementById('inVideoLink').value || "").trim();
@@ -1375,6 +1195,12 @@
 
       const legal   = (document.getElementById('inNot').value || "").trim();
 
+      // admin hash hesap
+      let adminHash = pageData.adminHash || "";
+      if(firstSetup || pass){
+        adminHash = sha256hex(pass);
+      }
+
       const folder = [
         pLink, vLink, adminHash,
         encodeSafe(slogan),
@@ -1386,14 +1212,16 @@
         encodeSafe(flashImg),
         encodeSafe(flashOld),
         encodeSafe(flashNew),
-        encodeSafe(flashLabel)
+        encodeSafe(flashLabel),
+        encodeSafe(email),
+        encodeSafe(review),
+        encodeSafe(hours)
       ].join("|||");
 
       fetch(API_URL + `?action=save&id=${encodeURIComponent(currentID)}&title=${encodeURIComponent(company)}&not=${encodeURIComponent(legal)}&folder=${encodeURIComponent(folder)}&ses=${encodeURIComponent(daily)}`)
         .then(res => res.json())
         .then(data => {
           if (data.status === "success") {
-            // ✅ remember admin on this device after successful save (even if pass skipped)
             rememberAdmin();
             location.reload();
           } else {
@@ -1407,6 +1235,220 @@
           btn.disabled = false;
           btn.innerText = "KAYDET";
         });
+    }
+
+    // =========================
+    // CARD / VCARD / A2HS FLOW
+    // =========================
+    function openCardModal(){
+      prepareCardModal();
+      document.getElementById('cardModal').style.display = 'flex';
+    }
+    function closeCardModal(){
+      document.getElementById('cardModal').style.display = 'none';
+      document.getElementById('a2hsSteps').style.display = 'none';
+    }
+
+    function isIOS(){
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+    function isAndroid(){
+      return /Android/.test(navigator.userAgent);
+    }
+    function isSafari(){
+      const ua = navigator.userAgent;
+      const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+      return isSafari && isIOS();
+    }
+
+    function prepareCardModal(){
+      const a2hsText = document.getElementById('a2hsText');
+      if(isIOS()){
+        a2hsText.innerHTML = "iPhone/iPad: Safari’de <b>Paylaş</b> → <b>Ana Ekrana Ekle</b> ile kısayol ekleyebilirsin.";
+      } else if(isAndroid()){
+        a2hsText.innerHTML = "Android: Chrome’da <b>⋮</b> menüsü → <b>Ana ekrana ekle</b> ile kısayol ekleyebilirsin.";
+      } else {
+        a2hsText.innerHTML = "Tarayıcı menüsünden “Ana ekrana ekle / Kısayol oluştur” seçeneklerini kullanabilirsin.";
+      }
+
+      // Quick links
+      const box = document.getElementById('cardQuickLinks');
+      const tel = document.getElementById('quickTel');
+      const map = document.getElementById('quickMap');
+      const ins = document.getElementById('quickInsta');
+      const rev = document.getElementById('quickReview');
+      const web = document.getElementById('quickWeb');
+
+      let any = false;
+
+      if(pageData.phone){
+        tel.href = `tel:${normalizeTel(pageData.phone)}`;
+        tel.style.display = 'inline-block';
+        any = true;
+      } else tel.style.display='none';
+
+      if(pageData.maps){
+        map.href = pageData.maps;
+        map.style.display = 'inline-block';
+        any = true;
+      } else map.style.display='none';
+
+      if(pageData.insta){
+        const handle = normalizeHandle(pageData.insta);
+        ins.href = `https://instagram.com/${handle}`;
+        ins.style.display = 'inline-block';
+        any = true;
+      } else ins.style.display='none';
+
+      if(pageData.review){
+        rev.href = pageData.review;
+        rev.style.display = 'inline-block';
+        any = true;
+      } else rev.style.display='none';
+
+      web.href = window.location.href;
+      web.style.display = 'inline-block';
+      any = true;
+
+      box.style.display = any ? 'block' : 'none';
+    }
+
+    function showA2HSHelp(){
+      const steps = document.getElementById('a2hsSteps');
+      steps.style.display = 'block';
+
+      if(isIOS()){
+        steps.innerHTML = `
+          <div class="step">
+            <div class="step-ico"><i class="fas fa-share-square"></i></div>
+            <div class="step-text">Safari’de alttaki <b>Paylaş</b> ikonuna dokun.</div>
+          </div>
+          <div class="step">
+            <div class="step-ico"><i class="fas fa-plus"></i></div>
+            <div class="step-text"><b>Ana Ekrana Ekle</b> seçeneğini seç.</div>
+          </div>
+          <div class="step">
+            <div class="step-ico"><i class="fas fa-check"></i></div>
+            <div class="step-text">Sağ üstten <b>Ekle</b> diyerek bitir.</div>
+          </div>
+          <div class="mini" style="margin-top:10px;">
+            Not: iOS’ta bu işlem sadece kullanıcı onayıyla yapılabilir; web sayfası otomatik ekleyemez.
+          </div>
+        `;
+      } else if(isAndroid()){
+        steps.innerHTML = `
+          <div class="step">
+            <div class="step-ico"><i class="fas fa-ellipsis-vertical"></i></div>
+            <div class="step-text">Chrome’da sağ üst <b>⋮</b> menüsüne dokun.</div>
+          </div>
+          <div class="step">
+            <div class="step-ico"><i class="fas fa-house"></i></div>
+            <div class="step-text"><b>Ana ekrana ekle</b> / <b>Uygulama yükle</b> seçeneğini seç.</div>
+          </div>
+          <div class="step">
+            <div class="step-ico"><i class="fas fa-check"></i></div>
+            <div class="step-text"><b>Ekle</b> diyerek bitir.</div>
+          </div>
+        `;
+      } else {
+        steps.innerHTML = `
+          <div class="mini">
+            Tarayıcı menüsünden “Ana ekrana ekle / Kısayol oluştur / Install app” seçeneklerini kullanabilirsin.
+          </div>
+        `;
+      }
+    }
+
+    // ===== vCard (VCF) generator =====
+    function sanitizeVCardValue(s){
+      // vCard special chars: \n, ; , \
+      return (s||"").replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,');
+    }
+    function buildVCard(){
+      const lines = [];
+      const company = pageData.company || "İşletme";
+      const slogan  = pageData.slogan || "";
+      const phone   = pageData.phone || "";
+      const email   = pageData.email || "";
+      const address = pageData.address || "";
+      const maps    = pageData.maps || "";
+      const insta   = pageData.insta || "";
+      const whats   = pageData.whats || "";
+      const review  = pageData.review || "";
+      const hours   = pageData.hours || "";
+
+      // vCard 3.0 is widely compatible
+      lines.push("BEGIN:VCARD");
+      lines.push("VERSION:3.0");
+      // FN / ORG
+      lines.push(`FN:${sanitizeVCardValue(company)}`);
+      lines.push(`ORG:${sanitizeVCardValue(company)}`);
+
+      // TEL
+      if(phone) lines.push(`TEL;TYPE=CELL,VOICE:${sanitizeVCardValue(phone)}`);
+
+      // EMAIL
+      if(email) lines.push(`EMAIL;TYPE=INTERNET:${sanitizeVCardValue(email)}`);
+
+      // ADR (simple text in label)
+      if(address) lines.push(`ADR;TYPE=WORK:;;${sanitizeVCardValue(address)};;;;`);
+
+      // URL: katalog linki
+      lines.push(`URL:${sanitizeVCardValue(window.location.href)}`);
+
+      // Extra links in NOTE (broad compatibility)
+      const noteParts = [];
+      if(slogan) noteParts.push(slogan);
+      if(hours) noteParts.push(`Çalışma Saatleri: ${hours}`);
+      if(maps) noteParts.push(`Konum: ${maps}`);
+      if(insta) noteParts.push(`Instagram: https://instagram.com/${normalizeHandle(insta)}`);
+      if(review) noteParts.push(`Yorumlar: ${review}`);
+
+      // WhatsApp (optional)
+      const w = normalizeWhats(whats || phone);
+      if(w) noteParts.push(`WhatsApp: https://wa.me/${w}`);
+
+      // ID
+      noteParts.push(`Katalog ID: ${currentID}`);
+
+      if(noteParts.length){
+        lines.push(`NOTE:${sanitizeVCardValue(noteParts.join("\n"))}`);
+      }
+
+      lines.push("END:VCARD");
+      return lines.join("\r\n");
+    }
+
+    function saveToContacts(){
+      // Web güvenliği gereği “rehbere otomatik kaydet” yok.
+      // En hızlı yöntem: vCard (VCF) oluşturup açtırmak.
+      const vcf = buildVCard();
+      const filename = `${(pageData.company || "isletme").replace(/[^\w\d\-]+/g,'_')}_${currentID}.vcf`;
+
+      try{
+        // Prefer Blob URL
+        const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+
+        // iOS Safari: location.href ile açtırmak genelde “Kişilere Ekle” ekranını getirir
+        // Bazı cihazlarda download gibi görünür ama Kişiler importu çıkar.
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+
+        // iOS'ta download attribute bazen yok sayılır, yine de açılır.
+        a.click();
+
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }, 1500);
+      } catch(e){
+        // Fallback: data uri
+        const dataUri = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcf);
+        window.location.href = dataUri;
+      }
     }
   </script>
 </body>
