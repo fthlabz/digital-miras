@@ -88,6 +88,14 @@
       text-transform: uppercase;
       color: rgba(242,242,242,.35);
     }
+    .catalog-subtag{
+      margin-top: 6px;
+      font-size: 11px;
+      color: rgba(242,242,242,.65);
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
 
     #loading{
       margin-top: 52px;
@@ -196,7 +204,7 @@
     }
     .btn-whatsapp:active{ transform: scale(0.99); }
     .btn-whatsapp::before{
-      content: "";
+      content: "\f232";
       font-family: "Font Awesome 6 Brands";
       margin-right: 10px;
       font-size: 16px;
@@ -215,6 +223,7 @@
       cursor:pointer;
     }
     .btn-ghost:active{ transform: scale(.99); }
+    .btn-ghost.compact{ padding: 12px 14px; letter-spacing: .06em; }
 
     .certificate{
       padding: 16px;
@@ -266,12 +275,14 @@
     }
     .dock-btn i{ font-size: 18px; opacity:.95; }
     .dock-btn:active{ transform: scale(.99); }
-    .dock-btn.daily{
+    .dock-btn.daily,
+    .dock-btn.primary{
       border-color: rgba(239,192,123,.35);
       background: rgba(239,192,123,.10);
       box-shadow: var(--glow-gold);
     }
-    .dock-btn.daily i{ color: var(--gold); }
+    .dock-btn.daily i,
+    .dock-btn.primary i{ color: var(--gold); }
     .dock-labels{
       display:flex; justify-content:space-between; gap: 10px;
       padding: 8px 12px 0;
@@ -541,6 +552,16 @@
       padding: 18px;
       -webkit-overflow-scrolling: touch;
     }
+    .card-intro{
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      border-radius: var(--r-md);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      color: rgba(242,242,242,.72);
+      font-size: 13px;
+      line-height: 1.55;
+    }
     .card-box{
       border-radius: var(--r-lg);
       border: 1px solid rgba(255,255,255,.10);
@@ -592,6 +613,18 @@
       border-bottom: 1px dashed rgba(255,255,255,.18);
       text-decoration:none;
     }
+    .toast{
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(242,242,242,.8);
+      font-size: 12px;
+      letter-spacing: .04em;
+      display:none;
+    }
+    .toast.show{ display:block; }
 
     @media (max-width: 380px){
       .company-name{ font-size: 24px; }
@@ -608,6 +641,7 @@
       <div class="company-name" id="companyName">...</div>
       <div class="company-slogan" id="companySlogan">...</div>
       <div class="catalog-tag">DİJİTAL KATALOG</div>
+      <div class="catalog-subtag">Kartviziti kaydetmek için aşağıdan Kart simgesine dokun.</div>
     </div>
 
     <div id="loading">
@@ -722,7 +756,7 @@
       <div class="dock">
         <div class="dock-inner">
           <!-- İLETİŞİM: artık kart/rehbere kaydet + ana ekrana ekle -->
-          <div class="dock-btn" onclick="openCardModal()" title="Kart / Rehbere Kaydet">
+          <div class="dock-btn primary" onclick="openCardModal()" title="Kart / Rehbere Kaydet">
             <i class="fas fa-address-card"></i>
           </div>
 
@@ -800,6 +834,10 @@
       <div class="card-title">KART / REHBER</div>
     </div>
     <div class="card-body">
+      <div class="card-intro">
+        Bu kartı rehberine kaydedersen, kataloğa her zaman tek dokunuşla ulaşırsın.
+      </div>
+
       <div class="card-box">
         <div class="card-headline"><i class="fas fa-user-plus"></i> Rehbere Kaydet</div>
         <div class="mini">
@@ -814,9 +852,13 @@
         <div class="card-headline"><i class="fas fa-house"></i> Ana Ekrana Kısayol</div>
         <div class="mini" id="a2hsText">Cihazına göre yönerge burada görünecek.</div>
 
-        <div style="margin-top:12px;">
+        <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
+          <button class="btn-gold" style="margin-top:0;" onclick="shareOrCopyLink()">Paylaş / Ana Ekrana Ekle</button>
+          <button class="btn-ghost compact" onclick="copyLinkOnly()">Linki Kopyala</button>
           <button class="btn-ghost" onclick="showA2HSHelp()">Ana Ekrana Ekle Yönergesi</button>
         </div>
+
+        <div id="a2hsToast" class="toast"></div>
 
         <div id="a2hsSteps" style="margin-top:12px; display:none;">
           <!-- dynamic -->
@@ -886,7 +928,7 @@
 
     function escapeHtml(str){
       return (str||"").replace(/[&<>"']/g, m => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'
       }[m]));
     }
 
@@ -1247,6 +1289,7 @@
     function closeCardModal(){
       document.getElementById('cardModal').style.display = 'none';
       document.getElementById('a2hsSteps').style.display = 'none';
+      hideA2HSToast();
     }
 
     function isIOS(){
@@ -1266,7 +1309,7 @@
       if(isIOS()){
         a2hsText.innerHTML = "iPhone/iPad: Safari’de <b>Paylaş</b> → <b>Ana Ekrana Ekle</b> ile kısayol ekleyebilirsin.";
       } else if(isAndroid()){
-        a2hsText.innerHTML = "Android: Chrome’da <b>⋮</b> menüsü → <b>Ana ekrana ekle</b> ile kısayol ekleyebilirsin.";
+        a2hsText.innerHTML = "Android: Chrome’da <b>Paylaş</b> veya <b>⋮</b> menüsü → <b>Ana ekrana ekle</b> ile kısayol ekleyebilirsin.";
       } else {
         a2hsText.innerHTML = "Tarayıcı menüsünden “Ana ekrana ekle / Kısayol oluştur” seçeneklerini kullanabilirsin.";
       }
@@ -1357,6 +1400,82 @@
           </div>
         `;
       }
+    }
+
+    function showA2HSToast(message){
+      const toast = document.getElementById('a2hsToast');
+      if(!toast) return;
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(window.a2hsToastTimer);
+      window.a2hsToastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1800);
+    }
+
+    function hideA2HSToast(){
+      const toast = document.getElementById('a2hsToast');
+      if(!toast) return;
+      toast.classList.remove('show');
+    }
+
+    async function copyLinkToClipboard(){
+      const url = window.location.href;
+      try{
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          await navigator.clipboard.writeText(url);
+          return true;
+        }
+      } catch(e){}
+
+      const temp = document.createElement('textarea');
+      temp.value = url;
+      temp.setAttribute('readonly', '');
+      temp.style.position = 'absolute';
+      temp.style.left = '-9999px';
+      document.body.appendChild(temp);
+      temp.select();
+      temp.setSelectionRange(0, temp.value.length);
+      let ok = false;
+      try{
+        ok = document.execCommand('copy');
+      } catch(e){
+        ok = false;
+      }
+      document.body.removeChild(temp);
+      return ok;
+    }
+
+    async function shareOrCopyLink(){
+      const shareData = {
+        title: pageData.company || "Dijital Katalog",
+        text: "Kataloğa tek dokunuşla ulaşmak için kaydet.",
+        url: window.location.href
+      };
+
+      let handled = false;
+      if(navigator.share){
+        try{
+          await navigator.share(shareData);
+          handled = true;
+        } catch(e){
+          handled = false;
+        }
+      }
+
+      if(!handled){
+        await copyLinkToClipboard();
+        showA2HSToast("Link kopyalandı.");
+      } else {
+        showA2HSToast("Paylaşım hazır.");
+      }
+
+      showA2HSHelp();
+    }
+
+    async function copyLinkOnly(){
+      await copyLinkToClipboard();
+      showA2HSToast("Link kopyalandı.");
     }
 
     // ===== vCard (VCF) generator =====
