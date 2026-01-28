@@ -672,6 +672,435 @@
       .dock-btn{ height: 48px; }
     }
   </style>
+  <style id="design-override">
+    :root{
+      --bg-void: #eef3f9;
+      --bg-navy: #f6f9fe;
+      --txt-main: #0f172a;
+      --txt-body: #1f2937;
+      --txt-dim: #64748b;
+      --gold: #6b7280;
+      --gold-deep: #94a3b8;
+      --glass: rgba(255,255,255,.7);
+      --edge-top: rgba(255,255,255,.95);
+      --edge-bot: rgba(148,163,184,.4);
+      --shadow-soft: 0 16px 30px rgba(15,23,42,.12);
+      --glow-gold: 0 8px 18px rgba(59,130,246,.25);
+    }
+
+    body{
+      color: var(--txt-main);
+      background:
+        radial-gradient(1200px 700px at 10% -10%, rgba(59,130,246,.18), transparent 55%),
+        radial-gradient(900px 500px at 90% 0%, rgba(148,163,184,.25), transparent 60%),
+        linear-gradient(180deg, #f7faff, #edf2f9 40%, #eef3f9 100%);
+    }
+
+    .bg-glow{ display:none; }
+
+    .container{
+      gap: 18px;
+      padding: 18px 18px 28px;
+    }
+
+    .header{
+      text-align:left;
+      padding: 14px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(148,163,184,.3);
+      box-shadow: 0 18px 30px rgba(15,23,42,.12);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .header-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .company-logo{
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid rgba(148,163,184,.35);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 10px 18px rgba(15,23,42,.12);
+      color: #0f172a;
+      font-size: 24px;
+      flex-shrink:0;
+    }
+
+    .header-title{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+
+    .company-name{
+      margin: 0;
+      font-size: 20px;
+      color: #0f172a;
+      text-shadow: none;
+      font-weight: 800;
+    }
+
+    .company-slogan{
+      margin-top: 6px;
+      font-size: 12px;
+      color: #6b7280;
+      font-style: normal;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+
+    .header-btn{
+      border: none;
+      border-radius: 14px;
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 700;
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      box-shadow: 0 10px 18px rgba(15,23,42,.12);
+      border: 1px solid rgba(148,163,184,.4);
+      position:relative;
+      cursor:pointer;
+    }
+
+    .header-btn::after{
+      content: "VIP";
+      position:absolute;
+      top: -8px;
+      right: -8px;
+      font-size: 9px;
+      font-weight: 700;
+      background: #fbbf24;
+      color: #111827;
+      border-radius: 999px;
+      padding: 4px 6px;
+      box-shadow: 0 6px 12px rgba(15,23,42,.2);
+    }
+
+    .header-btn.whatsapp{
+      background: linear-gradient(135deg, #32d481, #22c55e);
+      color: #0b1f14;
+    }
+
+    .header-btn.phone{
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      justify-content:center;
+    }
+
+    .catalog-tag{
+      margin-top: 10px;
+      font-size: 11px;
+      letter-spacing: .18em;
+      color: #94a3b8;
+      text-align:center;
+    }
+
+    .dock{
+      margin-top: 2px;
+    }
+
+    .dock-inner{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    .dock-btn{
+      height: 86px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid rgba(148,163,184,.35);
+      box-shadow: 0 12px 22px rgba(15,23,42,.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap: 8px;
+      color: #0f172a;
+    }
+
+    .dock-btn i{
+      font-size: 26px;
+      opacity: 1;
+    }
+
+    .dock-btn.daily{
+      border-color: rgba(59,130,246,.35);
+      background: #ffffff;
+      box-shadow: 0 12px 22px rgba(59,130,246,.18);
+    }
+
+    .dock-primary{
+      transform: scale(1.15);
+      border: 2px solid rgba(59,130,246,.5);
+      box-shadow: 0 16px 28px rgba(59,130,246,.22);
+    }
+
+    .dock-labels{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding: 8px 0 0;
+      font-size: 12px;
+      letter-spacing: .01em;
+      text-transform: none;
+      color: #1f2937;
+      font-weight: 600;
+    }
+
+    .dock-labels span{
+      text-align:center;
+    }
+
+    .section-label{
+      font-size: 24px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: #0f172a;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+
+    .flash.glass{
+      background: #ffffff;
+      border: 1px solid rgba(148,163,184,.3);
+      box-shadow: 0 18px 30px rgba(15,23,42,.12);
+    }
+
+    .flash-head{
+      margin-bottom: 14px;
+    }
+
+    .flash-title{
+      font-size: 12px;
+      color: #1f2937;
+    }
+
+    .flash-title i{
+      color: #3b82f6;
+    }
+
+    .flash-chip{
+      border: 1px solid rgba(59,130,246,.35);
+      background: rgba(59,130,246,.12);
+      color: #1f2937;
+    }
+
+    .flash-media{
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,.3);
+      background: #f8fafc;
+      box-shadow: 0 10px 18px rgba(15,23,42,.12);
+      padding: 10px;
+    }
+
+    .flash-media::before{
+      display:none;
+    }
+
+    .flash-media img{
+      border-radius: 14px;
+      background: #f1f5f9;
+      filter: none;
+    }
+
+    .flash-media .placeholder{
+      color: #94a3b8;
+      text-transform: none;
+    }
+
+    .product-text{
+      padding: 4px 4px 0;
+    }
+
+    .product-title{
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .product-desc{
+      font-size: 14px;
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    .price-row{
+      margin-top: 10px;
+      gap: 12px;
+    }
+
+    .price-box{
+      background: #f8fafc;
+      border: 1px solid rgba(148,163,184,.25);
+    }
+
+    .price-label{
+      color: #94a3b8;
+    }
+
+    .price-val{
+      color: #1d4ed8;
+      font-size: 20px;
+    }
+
+    .price-val.old{
+      color: #9ca3af;
+    }
+
+    .btn-whatsapp{
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      border: none;
+      color: #ffffff;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 14px;
+      box-shadow: 0 14px 22px rgba(37,99,235,.25);
+    }
+
+    .btn-whatsapp::before{
+      font-family: "Font Awesome 6 Brands";
+    }
+
+    .secondary-actions{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .secondary-btn{
+      border: 1px solid rgba(148,163,184,.3);
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 12px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      box-shadow: 0 12px 20px rgba(15,23,42,.12);
+      cursor:pointer;
+      text-align:left;
+    }
+
+    .secondary-icon{
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: #1d4ed8;
+      font-size: 18px;
+      flex-shrink:0;
+    }
+
+    .secondary-text strong{
+      display:block;
+      font-size: 13px;
+      color: #111827;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .secondary-text small{
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .certificate{
+      background: #ffffff;
+      border: 1px solid rgba(148,163,184,.3);
+      box-shadow: 0 16px 26px rgba(15,23,42,.12);
+    }
+
+    .cert-badge,
+    .cert-meta,
+    .cert-line,
+    .certificate div{
+      color: #475569;
+    }
+
+    .admin-edit{
+      position: static;
+      margin: 14px auto 0;
+      border-radius: 12px;
+      width: 46px;
+      height: 46px;
+      background: #ffffff;
+      border: 1px solid rgba(148,163,184,.3);
+      box-shadow: 0 12px 18px rgba(15,23,42,.12);
+      color: #475569;
+    }
+
+    .footer{
+      color: #94a3b8;
+      letter-spacing: .14em;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 420px){
+      .header-row{
+        flex-wrap: wrap;
+        justify-content:center;
+      }
+
+      .header-title{
+        order: 1;
+        width:100%;
+      }
+
+      .company-logo,
+      .header-actions{
+        order: 0;
+      }
+
+      .header-actions{
+        width:100%;
+        justify-content:center;
+      }
+
+      .dock-btn{
+        height: 78px;
+      }
+
+      .dock-primary{
+        transform: scale(1.08);
+      }
+
+      .secondary-actions{
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -679,8 +1108,19 @@
 
   <div class="container">
     <div class="header">
-      <div class="company-name" id="companyName">...</div>
-      <div class="company-slogan" id="companySlogan">...</div>
+      <div class="header-row">
+        <div class="company-logo" aria-hidden="true">
+          <i class="fas fa-screwdriver-wrench"></i>
+        </div>
+        <div class="header-title">
+          <div class="company-name" id="companyName">...</div>
+          <div class="company-slogan" id="companySlogan">...</div>
+        </div>
+        <div class="header-actions">
+          <button class="header-btn whatsapp" onclick="orderOnWhatsApp()"><i class="fab fa-whatsapp"></i> Bilgi Al</button>
+          <button class="header-btn phone" onclick="window.open(`tel:${normalizeTel(pageData.phone || pageData.whats || '')}`)"><i class="fas fa-phone"></i></button>
+        </div>
+      </div>
       <div class="catalog-tag">DİJİTAL KATALOG</div>
     </div>
 
@@ -796,26 +1236,26 @@
       <div class="dock">
         <div class="dock-inner">
           <!-- İLETİŞİM: artık kart/rehbere kaydet + ana ekrana ekle -->
-          <div class="dock-btn" onclick="openCardModal()" title="Kart / Rehbere Kaydet">
-            <i class="fas fa-address-card"></i>
+          <div class="dock-btn dock-primary" onclick="openCardModal()" title="Kart / Rehbere Kaydet">
+            <i class="fas fa-qrcode"></i>
           </div>
 
           <div class="dock-btn" onclick="openGallery('photo')" id="btnProducts" title="Ürünlerimiz">
-            <i class="fas fa-box-open"></i>
+            <i class="fas fa-cart-shopping"></i>
           </div>
 
           <div class="dock-btn" onclick="openGallery('video')" id="btnAds" title="Videolu Reklamlar">
-            <i class="fas fa-bullhorn"></i>
+            <i class="fas fa-store"></i>
           </div>
 
           <div class="dock-btn daily" onclick="openDaily()" id="btnDaily" title="Ürün tanıtımı">
-            <i class="fas fa-bolt"></i>
+            <i class="fas fa-star"></i>
           </div>
         </div>
 
         <div class="dock-labels">
           <span>Dijital Kart</span>
-          <span>Koleksiyon</span>
+          <span>Ürünlerimiz</span>
           <span>Vitrin</span>
           <span>Öne Çıkan</span>
         </div>
@@ -836,6 +1276,10 @@
           </div>
           <img id="flashImg" alt="" style="display:none;">
         </div>
+        <div class="product-text">
+          <div class="product-title">Premium Akıllı Paket</div>
+          <div class="product-desc">En yeni seri, modern tasarım ve sınırlı stok avantajı.</div>
+        </div>
 
         <div class="price-row">
           <div class="price-box">
@@ -849,7 +1293,24 @@
         </div>
 
         <div class="flash-actions">
-          <button class="btn-whatsapp" onclick="orderOnWhatsApp()">WhatsApp’tan Sipariş</button>
+          <button class="btn-whatsapp" onclick="orderOnWhatsApp()">WhatsApp’tan Bilgi Al</button>
+        </div>
+
+        <div class="secondary-actions">
+          <button class="secondary-btn" onclick="openCardModal()">
+            <span class="secondary-icon"><i class="fas fa-bookmark"></i></span>
+            <span class="secondary-text">
+              <strong>Kataloğu Kaydet</strong>
+              <small>Ana Ekrana Ekle</small>
+            </span>
+          </button>
+          <button class="secondary-btn" onclick="pageData.review ? window.open(pageData.review, '_blank', 'noopener,noreferrer') : openCardModal()">
+            <span class="secondary-icon"><i class="fab fa-google"></i></span>
+            <span class="secondary-text">
+              <strong>Değerlendir &amp; Puan Ver</strong>
+              <small>Google Yorum</small>
+            </span>
+          </button>
         </div>
       </div>
 
