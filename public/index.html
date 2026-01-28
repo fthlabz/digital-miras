@@ -745,9 +745,19 @@
       margin: 0;
       font-size: 26px;
       color: #0b1220;
-      text-shadow: none;
+      text-shadow: 0 1px 0 rgba(255,255,255,.4), 0 3px 8px rgba(15,23,42,.15);
       font-weight: 800;
       letter-spacing: .04em;
+    }
+
+    .company-name::after{
+      content: "";
+      display:block;
+      width: 70px;
+      height: 2px;
+      margin: 8px auto 0;
+      background: rgba(15,23,42,.25);
+      border-radius: 999px;
     }
 
     .company-slogan{
@@ -993,7 +1003,7 @@
 
     .secondary-actions{
       display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 12px;
       margin-top: 14px;
     }
@@ -1035,6 +1045,17 @@
     .secondary-text small{
       font-size: 12px;
       color: #6b7280;
+    }
+
+    .secondary-btn.review-secondary{
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      box-shadow: none;
     }
 
     #setup-panel{
@@ -1091,6 +1112,52 @@
 
     #setup-panel [style*="border-top"]{
       border-top-color: rgba(148,163,184,.35);
+    }
+
+    .certificate .cert-note{
+      margin-top: 10px;
+      font-size: 13px;
+      color: #111827;
+      text-align:center;
+      max-width: 85%;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .btn-share{
+      width:100%;
+      border-radius: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(148,163,184,.35);
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 700;
+      letter-spacing: .02em;
+      cursor:pointer;
+      box-shadow: 0 10px 18px rgba(15,23,42,.08);
+    }
+
+    .share-toast{
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      letter-spacing: .02em;
+      box-shadow: 0 12px 20px rgba(15,23,42,.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+      z-index: 9999;
+    }
+
+    .share-toast.show{
+      opacity: 1;
     }
 
     .certificate{
@@ -1285,7 +1352,7 @@
           </div>
         </div>
         <div class="cert-line"></div>
-        <div style="margin-top:10px; font-size:12px; color: rgba(242,242,242,.55);">
+        <div class="cert-note">
           “Bu sayfa, işletmenin seçkilerini ve kampanyalarını tek dokunuşla sunar.”
         </div>
       </div>
@@ -1361,7 +1428,7 @@
               <small>Linki Paylaş • Masaüstüne Ekle</small>
             </span>
           </button>
-          <button class="secondary-btn" onclick="pageData.review ? window.open(pageData.review, '_blank', 'noopener,noreferrer') : openCardModal()">
+          <button class="secondary-btn review-secondary" onclick="pageData.review ? window.open(pageData.review, '_blank', 'noopener,noreferrer') : openCardModal()">
             <span class="secondary-icon"><i class="fab fa-google"></i></span>
             <span class="secondary-text">
               <strong>Değerlendir &amp; Puan Ver</strong>
@@ -1408,6 +1475,9 @@
 
         <div style="margin-top:12px;">
           <button class="btn-ghost" onclick="showA2HSHelp()">Ana Ekrana Ekle Yönergesi</button>
+        </div>
+        <div style="margin-top:12px;">
+          <button class="btn-share" onclick="shareCatalog()">Paylaş</button>
         </div>
 
         <div id="a2hsSteps" style="margin-top:12px; display:none;">
@@ -2064,6 +2134,52 @@
         const dataUri = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcf);
         window.location.href = dataUri;
       }
+    }
+  </script>
+  <script>
+    function showShareToast(message){
+      let toast = document.getElementById('shareToast');
+      if(!toast){
+        toast = document.createElement('div');
+        toast.id = 'shareToast';
+        toast.className = 'share-toast';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toast.hideTimer);
+      toast.hideTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1800);
+    }
+
+    function shareCatalog(){
+      const url = window.location.href;
+      const title = (document.getElementById('companyName')?.innerText || 'Dijital Katalog').trim();
+
+      if(navigator.share){
+        navigator.share({ title, url }).catch(() => {
+          showShareToast('Paylaşım iptal edildi.');
+        });
+        return;
+      }
+
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(() => {
+          showShareToast('Link panoya kopyalandı.');
+        }).catch(() => {
+          showShareToast('Link kopyalanamadı.');
+        });
+        return;
+      }
+
+      const temp = document.createElement('input');
+      temp.value = url;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      showShareToast('Link panoya kopyalandı.');
     }
   </script>
 </body>
