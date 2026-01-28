@@ -977,12 +977,16 @@
     }
 
     .price-val{
-      color: #1d4ed8;
-      font-size: 20px;
+      color: #0b1220;
+      font-size: 22px;
+      text-align: center;
+      font-weight: 800;
     }
 
     .price-val.old{
-      color: #9ca3af;
+      color: #dc2626;
+      text-align: center;
+      font-weight: 700;
     }
 
     .btn-whatsapp{
@@ -1048,14 +1052,32 @@
     }
 
     .secondary-btn.review-secondary{
-      opacity: 0;
-      pointer-events: none;
-      height: 0;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      border: 0;
-      box-shadow: none;
+      justify-content: center;
+      text-align: center;
+      background: #f8fafc;
+      border: 1px solid rgba(148,163,184,.4);
+      box-shadow: 0 12px 20px rgba(15,23,42,.12);
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .secondary-btn.review-secondary .secondary-icon{
+      background: rgba(250, 204, 21, 0.18);
+      color: #b45309;
+    }
+
+    .secondary-btn.review-secondary .secondary-icon i{
+      display: none;
+    }
+
+    .secondary-btn.review-secondary .secondary-icon::before{
+      content: "\f005";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+    }
+
+    .secondary-btn.review-secondary .secondary-text strong{
+      font-size: 14px;
     }
 
     #setup-panel{
@@ -1431,7 +1453,7 @@
           <button class="secondary-btn review-secondary" onclick="pageData.review ? window.open(pageData.review, '_blank', 'noopener,noreferrer') : openCardModal()">
             <span class="secondary-icon"><i class="fab fa-google"></i></span>
             <span class="secondary-text">
-              <strong>Değerlendir &amp; Puan Ver</strong>
+              <strong>Bizi Değerlendir</strong>
               <small>Google Yorum</small>
             </span>
           </button>
